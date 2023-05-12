@@ -1,16 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { IMAGES } from "../../constants";
+import { reformatDate } from "../auth/func";
 
-const Card = () => {
+const Card = ({ title, question, answer, tags, createdAt }) => {
   return (
     <StContainer>
-      <StTitle>#운영체제 CH1 </StTitle>
-      <StQuestion>OSI 7Layer가 뭐야?</StQuestion>
+      {title ? <StTitle>{title}</StTitle> : null}
+      {question ? (
+        <StDiv>
+          <StQuestion>질문: {question}</StQuestion>
+          <StCreatedAt>{reformatDate(createdAt)}</StCreatedAt>
+        </StDiv>
+      ) : null}
       <StContents>
-        OSI 7 Layer 모델은 컴퓨터 네트워크에서 데이터 통신 프로토콜의 기능을 7개의 레이어로 분리하여 정의한 것입니다. OSI는 Open Systems Interconnection의 약자로, 이 모델은 국제 표준화 기구(ISO)에서
-        개발하였습니다. 7개의 레이어는 다음과 같습니다:
+        <StIcon url={IMAGES.alborz} />
+        <StAnswer>{answer}</StAnswer>
       </StContents>
-      <StTags>안녕, 태그1 , 태그2</StTags>
+
+      {tags ? <StTags>{tags}</StTags> : null}
     </StContainer>
   );
 };
@@ -21,11 +29,11 @@ const StContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 24px;
+  padding: 30px 30px;
   gap: 10px;
 
-  width: 1120px;
-  height: 299px;
+  /* width: 90%;
+  height: 299px; */
 
   background: #ffffff;
   box-shadow: 0px 4px 16px #eae2fd;
@@ -46,8 +54,13 @@ const StTitle = styled.div`
   padding: 0px;
   gap: 10px;
 
-  width: 235px;
+  width: 80%;
   height: 22px;
+
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 2.3rem;
+  margin-bottom: 10px;
 
   /* Inside auto layout */
 
@@ -57,13 +70,12 @@ const StTitle = styled.div`
 `;
 
 const StQuestion = styled.div`
-  width: 1072px;
+  /* width: 100%; */
   height: 45px;
 
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
+  font-size: 1.2rem;
   line-height: 130%;
   /* or 18px */
 
@@ -74,23 +86,43 @@ const StQuestion = styled.div`
 
   /* Inside auto layout */
 
-  flex: none;
+  /* flex: none;
   order: 1;
   align-self: stretch;
-  flex-grow: 0;
+  flex-grow: 0; */
+`;
+
+const StIcon = styled.img`
+  width: 38px;
+  height: 38px;
+
+  background-image: url(${(props) => props.url});
+  /* border-radius:  */
+
+  background-repeat: no-repeat;
+  background-size: 100%;
+  border-radius: 100%;
+`;
+
+const StAnswer = styled.div`
+  width: 100%;
 `;
 
 const StContents = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+
   padding: 20px;
   gap: 20px;
 
-  width: 1072px;
-  height: 128px;
+  width: 100%;
+  /* height: 128px; */
+  /* overflow: auto; */
 
   background: #eaf1f8;
+  line-height: 150%;
+  font-size: 1.2rem;
 
   /* Inside auto layout */
 
@@ -101,16 +133,29 @@ const StContents = styled.div`
 const StTags = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
+  align-items: center;
+  /* justify-content: center; */
   gap: 8px;
 
-  width: 135px;
+  /* width: 135px; */
   height: 22px;
+  /* border: 1px solid black; */
 
   /* Inside auto layout */
 
   flex: none;
   order: 3;
   flex-grow: 0;
+`;
+
+const StDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+`;
+
+const StCreatedAt = styled.div`
+  margin-left: 20px;
 `;

@@ -2,12 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { Card } from "antd";
 
-export const AntdCard = ({ title, body, img, width }) => {
+export const AntdCard = ({ title, body, img, width, imgWd, height, href }) => {
   return (
     <>
-      <StCard title={title} width={width} extra={<a href="https://itprogramming119.tistory.com/entry/React-Objects-are-not-valid-as-a-React-child-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95">More</a>}>
+      <StCard
+        title={title}
+        width={width}
+        extra={
+          <a href={href ? href : "https://platform.openai.com/account/usage"} target="_blank">
+            More
+          </a>
+        }
+      >
         <StBody>{body}</StBody>
-        <StImg src={img}></StImg>
+        <StImg src={img} imgWd={imgWd} height={height}></StImg>
       </StCard>
     </>
   );
@@ -21,9 +29,9 @@ const StCard = styled(Card)`
   flex-direction: column;
   gap: 10px;
   margin: 20px;
-  border: 1px solid black;
+  border: 2px solid #cecff4;
   :where(.css-dev-only-do-not-override-1vtf12y).ant-card .ant-card-head {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #cecff4;
   }
   :where(.css-dev-only-do-not-override-1vtf12y).ant-card .ant-card-body {
     padding: 0px 24px 20px 24px;
@@ -39,4 +47,6 @@ const StBody = styled.div`
 const StImg = styled.img`
   object-fit: cover;
   border: none;
+  width: ${({ imgWd }) => imgWd};
+  height: ${({ height }) => height};
 `;
