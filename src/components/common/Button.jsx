@@ -1,9 +1,9 @@
 import { Button } from "antd";
 import styled from "styled-components";
 
-const CustomBtn = ({ type, name, size, width, bgc, color, src }) => {
+const CustomBtn = ({ type, name, size, width, bgc, color, href, onClick, disabled }) => {
   return (
-    <StButton type={type} size={size} width={width} bgc={bgc} color={color}>
+    <StButton type={type} size={size} width={width} bgc={bgc} color={color} href={href} onClick={onClick} disabled={disabled}>
       {name}
     </StButton>
   );
