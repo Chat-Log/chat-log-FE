@@ -1,11 +1,7 @@
 import { Checkbox } from "antd";
 import styled from "styled-components";
 
-const onChange = (e) => {
-  console.log(`checked = ${e.target.checked}`);
-};
-
-const AntdCheckBox = ({ children, margin }) => {
+const AntdCheckBox = ({ onChange, children, margin }) => {
   return (
     <>
       <StCheckBox onChange={onChange} margin={margin}>
