@@ -2,20 +2,6 @@ import React from "react";
 import { Select } from "antd";
 import styled from "styled-components";
 
-const options = [
-  {
-    value: "Gpt3.5-turbo",
-    label: "Gpt3.5-turbo",
-  },
-  {
-    value: "Gpt4.0",
-    label: "Gpt4.0",
-  },
-  {
-    value: "Gpt3.5-davinchi",
-    label: "Gpt3.5-davinchi",
-  },
-];
 // for (let i = 10; i < 36; i++) {
 //   options.push({
 //     label: i.toString(36) + i,
@@ -23,11 +9,7 @@ const options = [
 //   });
 // }
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
-
-const AntdMultipleSelect = ({ ph }) => {
+const AntdMultipleSelect = ({ ph, options, onChange }) => {
   return (
     <>
       <StSelect
@@ -35,7 +17,7 @@ const AntdMultipleSelect = ({ ph }) => {
         allowClear
         placeholder={ph}
         // defaultValue={["a10", "c12"]}
-        onChange={handleChange}
+        onChange={onChange}
         options={options}
       />
     </>
