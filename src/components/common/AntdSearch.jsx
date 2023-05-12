@@ -3,12 +3,10 @@ import styled from "styled-components";
 
 const { Search } = Input;
 
-const onSearch = (value) => console.log(value);
-
-const AntdSearch = ({ ph, size, eb, width }) => {
+const AntdSearch = ({ mw, ph, size, eb, width, onSearch, onChange, value }) => {
   return (
     <>
-      <StSearch width={width} placeholder={ph} enterButton={eb} size={size} onSearch={onSearch} />
+      <StSearch mw={mw} width={width} placeholder={ph} enterButton={eb} size={size} onChange={onChange} onSearch={onSearch} value={value} />
     </>
   );
 };
@@ -17,4 +15,5 @@ export default AntdSearch;
 
 const StSearch = styled(Search)`
   width: ${({ width }) => width};
+  max-width: ${({ mw }) => mw};
 `;
