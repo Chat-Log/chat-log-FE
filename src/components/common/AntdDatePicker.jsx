@@ -3,11 +3,7 @@ import styled from "styled-components";
 
 import { DatePicker } from "antd";
 
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
-
-const AntdDatePicker = () => {
+const AntdDatePicker = ({ onChange }) => {
   return (
     <>
       <StDatePicker onChange={onChange} />
