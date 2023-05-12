@@ -22,5 +22,5 @@ const AntdLayout = () => {
 export default AntdLayout;
 
 const StContainer = styled(Layout)`
-  padding: 0 24px 24px;
+  /* padding: 24px 0 0 0; */
 `;
