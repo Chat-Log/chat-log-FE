@@ -4,13 +4,13 @@ import { Layout, theme } from "antd";
 
 const { Header } = Layout;
 
-const AntdSubHeader = ({ children, jc, height }) => {
+const AntdSubHeader = ({ children, jc, height, margin }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <StHeader jc={jc} bg={colorBgContainer} height={height}>
+    <StHeader jc={jc} bg={colorBgContainer} height={height} margin={margin}>
       {children}
     </StHeader>
   );
@@ -26,5 +26,6 @@ const StHeader = styled(Header)`
   background: ${({ bg }) => bg};
   height: ${({ height }) => height};
   padding: 0 15px 0 15px;
-  margin: 10px 0 15px 0;
+  margin: ${({ margin }) => margin};
+  /* margin: 10px 10px 15px 10px; */
 `;
