@@ -2,13 +2,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Input, Space, Tag, Tooltip, theme } from "antd";
 import { useEffect, useRef, useState } from "react";
 
-const AntdTag = () => {
+const AntdTag = ({ tags, setTags }) => {
   const { token } = theme.useToken();
-  const [tags, setTags] = useState([]);
+
+  // const [tags, setTags] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
   const [editInputValue, setEditInputValue] = useState("");
+
   const inputRef = useRef(null);
   const editInputRef = useRef(null);
 
@@ -24,7 +26,6 @@ const AntdTag = () => {
 
   const handleClose = (removedTag) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags);
     setTags(newTags);
   };
 
@@ -66,10 +67,12 @@ const AntdTag = () => {
     borderStyle: "dashed",
   };
 
+  // console.log(tags);
+
   return (
     <Space size={[0, 8]} wrap>
       <Space size={[0, 8]} wrap>
-        {tags.map((tag, index) => {
+        {tags?.map((tag, index) => {
           if (editInputIndex === index) {
             return (
               <Input
@@ -96,11 +99,9 @@ const AntdTag = () => {
             >
               <span
                 onDoubleClick={(e) => {
-                  // if (index !== 0) {
                   setEditInputIndex(index);
                   setEditInputValue(tag);
                   e.preventDefault();
-                  // }
                 }}
               >
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
@@ -120,7 +121,7 @@ const AntdTag = () => {
         <Input ref={inputRef} type="text" size="small" style={tagInputStyle} value={inputValue} onChange={handleInputChange} onBlur={handleInputConfirm} onPressEnter={handleInputConfirm} />
       ) : (
         <Tag style={tagPlusStyle} onClick={showInput}>
-          <PlusOutlined /> New Tag
+          <PlusOutlined /> 태그 추가
         </Tag>
       )}
     </Space>
