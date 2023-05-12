@@ -18,9 +18,10 @@ const Router = () => {
         <Routes>
           <Route element={<AntdLayout />}>
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/main" element={<MainPage />} />
+            <Route path="/main/" element={<MainPage />} />
+            <Route path="/main/:topicId" element={<MainPage />} />
             <Route path="/tags" element={<SortedByTagPage />} />
-            <Route path="/date" element={<SortedByDatePage />} />
+            <Route path="/date/:date" element={<SortedByDatePage />} />
             <Route path="/mypage" element={<MyPage />} />
           </Route>
           <Route>
