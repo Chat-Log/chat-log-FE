@@ -1,2 +1,1 @@
-export { API } from "./api";
-export { baseUrl } from "./config";
+export const serverUrl = process.env.REACT_APP_TEST_SERVER;
