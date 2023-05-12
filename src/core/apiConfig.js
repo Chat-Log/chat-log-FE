@@ -21,12 +21,13 @@ export const baseURL = axios.create({
 // 로컬스토리지에 토큰 값 넣기
 baseURL.interceptors.request.use((config) => {
   if (config.headers === undefined) return;
-  const token = localStorage.getItem("authorization");
+  // console.log(localStorage.getItem("accessToken"));
+  const token = localStorage.getItem("accessToken");
   config.headers["Authorization"] = `${token}`;
   return config;
 });
 
-export const api = {
-  patchTagApi: async (id, data) =>
-    await baseURL.patch(`mypage/tag/${id}`, data),
-};
+// export const api = {
+//   patchTagApi: async (id, data) =>
+//     await baseURL.patch(`mypage/tag/${id}`, data),
+// };
