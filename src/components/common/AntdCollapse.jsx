@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { Collapse } from "antd";
+import { Collapse, theme } from "antd";
 
 const { Panel } = Collapse;
 
 const AntdCollapse = ({ children }) => {
-  const onChange = (key) => {
-    console.log(key);
-  };
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
     <>
-      <StCollapse onChange={onChange} expandIconPosition={"end"} bordered={false}>
+      <StCollapse expandIconPosition={"end"} bordered={false} bg={colorBgContainer}>
         <StPanel header="상세 검색 옵션 보기" key="1">
           {children}
         </StPanel>
@@ -22,7 +22,9 @@ const AntdCollapse = ({ children }) => {
 
 export default AntdCollapse;
 
-const StCollapse = styled(Collapse)``;
+const StCollapse = styled(Collapse)`
+  background: ${({ bg }) => bg};
+`;
 
 const StPanel = styled(Panel)`
   padding-left: 10px;
