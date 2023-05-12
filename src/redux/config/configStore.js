@@ -1,7 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import main from "../modules/mainSlice";
+import search from "../modules/searchSlice";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    main,
+    search,
+  },
 });
 
 export default store;
