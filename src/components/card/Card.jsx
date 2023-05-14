@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IMAGES } from "../../constants";
 import { reformatDate } from "../auth/func";
+import MarkdownRender from "../completion/MarkdownRender";
 
 const Card = ({ title, question, answer, tags, createdAt }) => {
   return (
@@ -15,7 +16,9 @@ const Card = ({ title, question, answer, tags, createdAt }) => {
       ) : null}
       <StContents>
         <StIcon url={IMAGES.alborz} />
-        <StAnswer>{answer}</StAnswer>
+        <StAnswer>
+          <MarkdownRender markdown={answer} overflow="none" height="auto" />
+        </StAnswer>
       </StContents>
 
       {tags ? <StTags>{tags}</StTags> : null}
