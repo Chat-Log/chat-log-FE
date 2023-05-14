@@ -27,7 +27,7 @@ export const AntdHeader = () => {
             // 헤더에 검색 부분 페이지 링크 연결
             style={{ background: "transparent", boxShadow: "none" }}
           />
-          <Link to={PATH.login}>
+          <Link to={PATH.mypage}>
             <AntdUser />
           </Link>
           <div>Lee Shin</div>

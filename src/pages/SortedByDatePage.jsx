@@ -122,22 +122,22 @@ function SortedByDatePage() {
     <>
       <AntdContent>
         <StBox>
-          <StGrass>
-            <StDays>{renderDayLabels()}</StDays>
-            <StCells>{renderCompletionCells()}</StCells>
-          </StGrass>
           <YearSelector>
-            <button onClick={() => changeYear(-1)}>이전 년도</button>
-            <span>{currentYear}</span>
-            <button onClick={() => changeYear(1)}>다음 년도</button>
+            {/* <button onClick={() => changeYear(-1)}>이전 년도</button> */}
+            {/* <span>{currentYear}</span> */}
+            {/* <button onClick={() => changeYear(1)}>다음 년도</button> */}
             <p>
               {totalCount} contributions in {currentYear}
             </p>
           </YearSelector>
+          <StGrass>
+            <StDays>{renderDayLabels()}</StDays>
+            <StCells>{renderCompletionCells()}</StCells>
+          </StGrass>
         </StBox>
         <CardBox>
           {searchData[0] ? (
-            searchData.map((data, index) => <Card key={index} title={data.topicTitle} question={data.question} answer={data.answer} tags={data.tagNames}></Card>)
+            searchData.map((data, index) => <Card createdAt={data.createdAt} key={index} title={data.topicTitle} question={data.question} answer={data.answer} tags={data.tagNames}></Card>)
           ) : (
             <StNoSearchedData>데이터가 없습니다.</StNoSearchedData>
           )}
@@ -237,7 +237,7 @@ const YearSelector = styled.div`
     font-size: 1.3rem;
   }
   p {
-    margin-left: 10px;
+    margin-bottom: 20px;
     font-size: 1.3rem;
     color: #4a8aeb;
   }

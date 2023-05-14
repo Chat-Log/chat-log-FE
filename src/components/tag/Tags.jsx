@@ -53,7 +53,7 @@ const Tags = () => {
         ) : (
           <CardBox>
             {searchData?.map((item, index) => (
-              <Card key={index} title={item?.title} question={item?.question} answer={item?.answer} tags={item?.tags}></Card>
+              <Card key={index} title={item?.title} question={item?.question} answer={item?.answer} tags={item?.tags} createdAt={item?.createdAt}></Card>
             ))}
           </CardBox>
         )}

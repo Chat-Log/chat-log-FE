@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { __getSearch, __getTag } from "../../redux/modules/searchSlice";
+import { __getModel } from "../../redux/modules/mainSlice";
 import Card from "../card/Card";
 import CardBox from "../card/CardBox";
 
@@ -19,6 +20,7 @@ const Search = () => {
 
   const searchData = useSelector((state) => state.search.data);
   const tagData = useSelector((state) => state.search.tagData);
+  const modelData = useSelector((state) => state.main.modelData);
 
   const [tags, setTags] = useState(tagData);
 
@@ -35,6 +37,10 @@ const Search = () => {
   };
 
   useEffect(() => {
+    dispatch(__getModel());
+  }, []);
+
+  useEffect(() => {
     dispatch(__getSearch({ pagesize: "100", pageindex: "1" }));
   }, []);
 
@@ -43,14 +49,9 @@ const Search = () => {
   }, []);
 
   const options = {
-    model: [
-      {
-        value: "gpt3.5_turbo",
-      },
-      {
-        value: "mock",
-      },
-    ],
+    model: modelData?.map((model) => {
+      return { value: model };
+    }),
     // 가져온 태그들을 아래의 value: "" 에 넣어준다
     tag: tags.map((tag) => ({ value: tag })),
   };

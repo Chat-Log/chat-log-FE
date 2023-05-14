@@ -94,7 +94,7 @@ const AntdSider = () => {
       trigger={null}
       collapsible
       collapsed={collapsed}
-      width={200}
+      width={250}
       style={{
         background: colorBgContainer,
         overflow: "auto",
@@ -108,7 +108,7 @@ const AntdSider = () => {
         // 처음에 열리는거
         style={{
           borderRight: 0,
-          width: collapsed ? "75px" : "200px",
+          width: collapsed ? "80px" : "250px",
         }}
         items={items}
         onClick={menuClickHandler}

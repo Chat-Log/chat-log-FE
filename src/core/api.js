@@ -3,7 +3,12 @@ import { instance, baseURL } from "./apiConfig";
 export const api = {
   // 회원가입/로그인 페이지
   postLoginApi: (loginInfo) => instance.post(`users/login/email`, loginInfo),
-  postSignUpApi: (signUpInfo) => instance.post(`users/sign-up/email`, signUpInfo, { responseType: "stream" }),
+  postSignUpApi: (signUpInfo) => instance.post(`users/sign-up/email`, signUpInfo),
+
+  // email/pwd 찾기
+  getEmailApi: (phoneNum) => instance.get(`users/email`, { params: phoneNum }),
+  patchPwdApi: (userInfo) => instance.patch(`users/password/reset`, userInfo),
+  patchResetPwdApi: (pwd) => baseURL.patch(`users/password/`, pwd),
 
   // 메인 페이지
   patchGptKeyApi: (apiKey) => baseURL.patch(`users/gpt-key`, apiKey),

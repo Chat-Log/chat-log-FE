@@ -1,36 +1,141 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from "../common/Button";
 import styled from "styled-components";
 import Input from "../common/AntdInput";
 import Tab from "../common/AntdTabs";
-
-import { ICON } from "../../constants";
-
-const items = [
-  {
-    key: "1",
-    label: `이메일 찾기`,
-    children: <Input ph="PHONE NUMBER" prefix={ICON.phone} />,
-  },
-  {
-    key: "2",
-    label: `비밀번호 찾기`,
-    children: (
-      <>
-        <Input ph="PHONE NUMBER" prefix={ICON.phone} mb="20px" />
-        <Input ph="E-mail" prefix={ICON.user} />
-      </>
-    ),
-  },
-];
+import { api } from "../../core/api";
+import { ICON, PATH } from "../../constants";
+import { Alert } from "../common/Alert";
 
 const EmailRecovery = () => {
+  const navigate = useNavigate();
+
+  const [phoneNum, setPhoneNum] = useState("");
+  const [email, setEmail] = useState("");
+  const [key, setKey] = useState("1");
+
+  const [oldPwd, setOldPwd] = useState("");
+  const [newPwd, setNewPwd] = useState("");
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "phone":
+        setPhoneNum(value);
+        return;
+      case "email":
+        setEmail(value);
+        return;
+      case "oldPwd":
+        setOldPwd(value);
+        return;
+      case "newPwd":
+        setNewPwd(value);
+        return;
+      default:
+        return;
+    }
+  };
+  const items = [
+    {
+      key: "1",
+      label: `이메일 찾기`,
+      children: <Input ph="PHONE NUMBER" prefix={ICON.phone} name="phone" value={phoneNum} onChange={changeHandler} />,
+    },
+    {
+      key: "2",
+      label: `비밀번호 초기화`,
+      children: (
+        <>
+          <Input ph="PHONE NUMBER" prefix={ICON.phone} mb="20px" name="phone" value={phoneNum} onChange={changeHandler} />
+          <Input ph="E-mail" prefix={ICON.user} name="email" value={email} onChange={changeHandler} />
+        </>
+      ),
+    },
+    {
+      key: "3",
+      label: `비밀번호 변경`,
+      children: (
+        <>
+          <Input ph="E-mail" prefix={ICON.user} name="email" mb="20px" value={email} onChange={changeHandler} />
+          <Input ph="현재 비밀번호" prefix={ICON.password} mb="20px" name="oldPwd" value={oldPwd} onChange={changeHandler} type="password" />
+          <Input ph="새로운 비밀번호" prefix={ICON.password} name="newPwd" value={newPwd} onChange={changeHandler} type="password" />
+        </>
+      ),
+    },
+  ];
+
+  const submitHandler = async () => {
+    if (key === "1") {
+      try {
+        const res = await api.getEmailApi({
+          phone: phoneNum,
+        });
+        Alert({ title: "등록된 이메일: " + res.data.data.email });
+      } catch (error) {
+        if (error.response.data.statusCode === "4402") {
+          Alert({ errMsg: "가입되지 않는 전화번호입니다.", icon: "error" });
+        }
+      }
+    } else if (key === "2") {
+      try {
+        const res = await api.patchPwdApi({ email: email, phone: phoneNum });
+        Alert({ title: "초기화된 비밀번호: " + res.data.data.password, icon: "success" });
+      } catch (error) {
+        if (error.response.data.statusCode === "4402") {
+          Alert({ errMsg: "가입되지 않은 유저정보입니다.", icon: "error" });
+        }
+      }
+    } else {
+      try {
+        const res = await api.postLoginApi({
+          email: email,
+          password: oldPwd,
+        });
+        if (res.status === 201) {
+          localStorage.setItem("accessToken", "Bearer " + res.data.data.accessToken);
+          localStorage.setItem("id", res.data.data.id);
+          const resetPwdRes = await api.patchResetPwdApi({ oldPassword: oldPwd, newPassword: newPwd });
+          console.log(resetPwdRes.data.data);
+          Alert({ errMsg: "변경된 비밀번호로 로그인 었습니다!" });
+          navigate(PATH.main);
+        }
+      } catch (error) {
+        if (error.response.data.statusCode === "4401") {
+          Alert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
+        } else if (error.response.data.statusCode === "4402") {
+          Alert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
+        } else {
+          console.log(error.response.data);
+        }
+      }
+    }
+    setPhoneNum("");
+    setEmail("");
+    setNewPwd("");
+    setOldPwd("");
+  };
+
+  const onChange = (key) => {
+    setKey(key);
+    setPhoneNum("");
+    setEmail("");
+    setNewPwd("");
+    setOldPwd("");
+  };
+
   return (
     <StContainer>
       <StBox>
         <StTitle>Chat Log</StTitle>
+        <StDiv>
+          <Button name="로그인" type="link" color="#1890FF" href={PATH.login} />
+        </StDiv>
         <StForm>
-          <Tab width="360px" items={items} />
-          <Button name="확인" type="primary" width="250px" />
+          <Tab width="360px" items={items} onChange={onChange} />
+          <Button name="확인" type="primary" width="250px" onClick={submitHandler} />
         </StForm>
       </StBox>
     </StContainer>
@@ -47,9 +152,6 @@ const StContainer = styled.div`
 const StBox = styled.div`
   width: 500px;
   height: 700px;
-  /* border: 1px solid black; */
-  /* background-color: #d7e4f3; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,15 +165,7 @@ const StTitle = styled.div`
   font-weight: 900;
   font-size: 64px;
   line-height: 38px;
-  /* or 59% */
-
-  /* display: flex; */
-  /* align-items: center; */
-  /* text-align: center; */
   letter-spacing: 0.005em;
-
-  /* Character/Title .85 */
-
   color: rgba(0, 0, 0, 0.85);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
@@ -85,4 +179,11 @@ const StForm = styled.div`
   gap: 20px;
 `;
 
-const StDiv = styled.div``;
+const StDiv = styled.div`
+  display: flex;
+  justify-content: end;
+  width: 360px;
+  height: 0px;
+  /* border-bottom: 1px solid #d5d5d5; */
+  /* padding-bottom: 10px; */
+`;

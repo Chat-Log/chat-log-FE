@@ -1,9 +1,7 @@
 import { Tabs } from "antd";
 import styled from "styled-components";
 
-const onChange = (key) => {};
-
-const AntdTabs = ({ width, items }) => {
+const AntdTabs = ({ width, items, onChange }) => {
   return (
     <>
       <StTab defaultActiveKey="1" items={items} onChange={onChange} width={width} />

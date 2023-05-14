@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../common/Button";
 import styled from "styled-components";
 import Input from "../common/AntdInput";
+import { Alert } from "../common/Alert";
 
 import { ICON, PATH } from "../../constants/index";
 import { api } from "../../core/api";
@@ -30,7 +31,7 @@ const Login = () => {
     }
   };
 
-  const onSubmitHandler = async () => {
+  const submitHandler = async () => {
     try {
       const res = await api.postLoginApi({
         email: email,
@@ -43,7 +44,9 @@ const Login = () => {
       navigate(PATH.main);
     } catch (error) {
       if (error.response.data.statusCode === "4401") {
-        alert("존재하지 않는 회원입니다.");
+        Alert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
+      } else if (error.response.data.statusCode === "4402") {
+        Alert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
       }
     }
   };
@@ -59,7 +62,7 @@ const Login = () => {
           </StDiv>
           <Input ph="E-mail" prefix={ICON.user} onChange={onChangeHandler} value={email} id="email" />
           <Input ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} value={pwd} id="pwd" type="password" />
-          <Button type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={onSubmitHandler} disabled={disabled} />
+          <Button type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
           <Button type="link" href={PATH.signup} name="회원가입" color="#1890FF" />
         </StForm>
       </StBox>
