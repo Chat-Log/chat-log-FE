@@ -16,47 +16,48 @@ import AntdModal from "../common/AntdModal";
 import { completionInfo, __patchGptKey, __postCompletion, __getTopicApi, __getModel } from "../../redux/modules/mainSlice";
 import Answer from "../completion/Answer";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Question from "../completion/Question";
 
 const Main = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const param = useParams();
   const topicId = param.topicId;
 
   const completionData = useSelector((state) => state.main.data);
-  // console.log(completionData[0].question);
-
   const topicData = useSelector((state) => state.main.topicData);
-  // console.log(topicData?.completions?.[0].props.answer);
-  let newtags = topicData?.tags?.map((tag) => tag.props.name);
-
   const modelData = useSelector((state) => state.main.modelData);
-  // console.log(newtags);
+  console.log(completionData[0]);
 
-  // console.log(topicData?.tags);
+  let newtags = topicData?.tags?.map((tag) => tag.props.name);
 
   const [topicTitle, setTopicTitle] = useState("제목을 입력해주세요");
   const [selectedModel, setSelectedModel] = useState("gpt3.5_turbo");
   const [question, setQuestion] = useState("");
   const [tags, setTags] = useState([]);
-
   const [responses, setResponses] = useState("");
   const [createdAt, setCreatedAt] = useState(null);
 
   useEffect(() => {
-    if (topicId !== undefined) {
-      // console.log("토픽아이디로 조회");
-      dispatch(__getTopicApi(topicId));
-      setQuestion("");
-      // setTags(newtags);
-    }
-  }, [topicId]);
-
-  useEffect(() => {
     dispatch(__getModel());
   }, []);
+
+  useEffect(() => {
+    if (topicId !== undefined) {
+      dispatch(__getTopicApi(topicId));
+      setQuestion("");
+    }
+  }, [topicId, completionData[0]]);
+
+  useEffect(() => {
+    // 주소가 'http://localhost:3000/main'으로 변경되면 동작하는 로직
+    if (location.pathname === "/main") {
+      dispatch(completionInfo([]));
+      setResponses("");
+    }
+  }, [location]);
 
   // api key 관리
   const [apiKey, setApiKey] = useState("");
@@ -78,6 +79,7 @@ const Main = () => {
     }
     setIsModalOpen(false);
   };
+
   // api 키 등록 확인하고 안에 내용 초기화 하는 작업 해야함
 
   const handleCancel = () => {
@@ -98,7 +100,6 @@ const Main = () => {
 
   const changeModelHandler = (value, option) => {
     setSelectedModel(value);
-    // 선택한 모델
   };
 
   // 질문 관련 input 관리
@@ -106,6 +107,7 @@ const Main = () => {
     setQuestion(e.target.value);
   };
 
+  // 질문 버튼
   const submitQuestionHandler = () => {
     dispatch(
       completionInfo({
@@ -115,22 +117,28 @@ const Main = () => {
       })
     );
 
+    // topicID에 따른 request body
+    let body = {
+      modelName: selectedModel,
+      question: question,
+      tagNames: tags,
+      topicTitle: topicTitle,
+    };
+
+    if (topicId) {
+      body.topicId = topicId;
+    }
+
     fetch("http://localhost:8080/topics/completion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         Authorization: localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({
-        modelName: selectedModel,
-        question: question,
-        tagNames: tags,
-        topicTitle: topicTitle,
-        topicId: topicId ? topicId : null,
-        // Your request body content, e.g., question
-      }),
+      body: JSON.stringify(body),
     })
       .then((response) => {
+        console.log(response);
         setCreatedAt(new Date().toISOString());
 
         const reader = response.body.getReader();
@@ -197,18 +205,16 @@ const Main = () => {
         </StTagBox>
 
         <StChatBox>
-          {topicId &&
-            topicData?.completions?.map((data, index) => (
-              <div key={index}>
-                <Question question={data.props.question} createdAt={data.props.createdAt} />
-                <Answer answer={data.props.answer} createdAt={data.props.createdAt} model={data.props.model.name} />
-              </div>
-            ))}
+          {topicId
+            ? topicData?.completions?.map((data, index) => (
+                <div key={index}>
+                  <Question question={data.props.question} createdAt={data.props.createdAt} />
+                  <Answer answer={data.props.answer} createdAt={data.props.createdAt} model={data.props.model.name} />
+                </div>
+              ))
+            : null}
           {completionData[0].question ? <Question question={completionData[0].question} createdAt={createdAt} /> : null}
           {responses ? <Answer answer={responses} createdAt={createdAt} model={completionData[0].modelName} /> : null}
-          {/* {responses.map((response, index) => (
-            <Answer key={index} answer={response} createdAt={"1"} />
-          ))} */}
         </StChatBox>
 
         <StQBox>
