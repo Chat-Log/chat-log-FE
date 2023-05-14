@@ -31,21 +31,26 @@ const DashBoard = () => {
   const grassData = useSelector((state) => state.search.dateData);
   const navigate = useNavigate();
 
-  // console.log(grassData);
   // console.log(completionData);
 
   const totalCount = grassData[0]?.yearly?.count;
 
-  const fetchCompletionData = useCallback(() => {
-    dispatch(__getDailyCompletionCounts(currentYear));
+  const fetchCompletionData = useCallback(async () => {
+    const data = await dispatch(__getDailyCompletionCounts(currentYear));
+    const dailyData = data?.payload?.daily;
 
-    // const yearDates = generateYearDates(currentYear);
-    const mockData = yearDates.reduce((acc, date) => {
-      acc[date] = Math.floor(Math.random() * 20); // 랜덤으로 일단 생성
+    const completionData = yearDates.reduce((acc, date) => {
+      const item = dailyData?.find((item) => item.date === date);
+      acc[date] = item ? item.count : 0;
       return acc;
     }, {});
+    // const yearDates = generateYearDates(currentYear);
+    // const mockData = yearDates.reduce((acc, date) => {
+    //   acc[date] = Math.floor(Math.random() * 20); // 랜덤으로 일단 생성
+    //   return acc;
+    // }, {});
     // console.log(mockData);
-    setCompletionData(mockData);
+    setCompletionData(completionData);
   }, [currentYear]);
 
   useEffect(() => {
@@ -84,7 +89,7 @@ const DashBoard = () => {
       if (!cells[0]) {
         cells[0] = [];
       }
-      cells[0].push(<CompletionCell key={`empty-${i}`} bgColor="#ebedf0" />);
+      cells[0].push(<CompletionCell key={`empty-${i}`} bgColor="#ffffff" />);
     }
 
     for (const date in completionData) {
