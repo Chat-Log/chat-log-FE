@@ -35,7 +35,6 @@ const DashBoard = () => {
   // console.log(completionData);
 
   const totalCount = grassData[0]?.yearly?.count;
-  // console.log(totalCount);
 
   const fetchCompletionData = useCallback(() => {
     dispatch(__getDailyCompletionCounts(currentYear));
@@ -110,18 +109,18 @@ const DashBoard = () => {
     <>
       <AntdContent>
         <StBox>
-          <StGrass>
-            <StDays>{renderDayLabels()}</StDays>
-            <StCells>{renderCompletionCells()}</StCells>
-          </StGrass>
           <YearSelector>
-            <button onClick={() => changeYear(-1)}>이전 년도</button>
-            <span>{currentYear}</span>
-            <button onClick={() => changeYear(1)}>다음 년도</button>
+            {/* <button onClick={() => changeYear(-1)}>이전 년도</button> */}
+            {/* <span>{currentYear}</span> */}
+            {/* <button onClick={() => changeYear(1)}>다음 년도</button> */}
             <p>
               {totalCount} contributions in {currentYear}
             </p>
           </YearSelector>
+          <StGrass>
+            <StDays>{renderDayLabels()}</StDays>
+            <StCells>{renderCompletionCells()}</StCells>
+          </StGrass>
         </StBox>
         <StBody>
           <AntdCard title="사용 토근수" body="126,560" width="300px" img={IMAGES.token} />
@@ -220,8 +219,9 @@ const YearSelector = styled.div`
     font-size: 1.3rem;
   }
   p {
-    margin-left: 10px;
+    /* margin-left: 10px; */
     font-size: 1.3rem;
     color: #4a8aeb;
+    margin-bottom: 20px;
   }
 `;
