@@ -7,7 +7,7 @@ export const isValidPassword = (pwd) => {
 };
 
 export const isValidPhoneNumber = (phonenNumber) => {
-  return phonenNumber.match(/01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/);
+  return phonenNumber.match(/01[016789][^0][0-9]{2,3}[0-9]{3,4}/);
 };
 
 export const reformatDate = (inputDate) => {

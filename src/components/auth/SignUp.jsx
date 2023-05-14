@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import styled from "styled-components";
 import Input from "../common/AntdInput";
+import { Alert } from "../common/Alert";
 import { isValidEmail, isValidPassword, isValidPhoneNumber } from "./func";
 
 import { ICON, PATH } from "../../constants/index";
@@ -69,12 +70,13 @@ const SignUp = () => {
         email: email,
         password: pwd,
         phone: phoneNumber,
-        name: "kang san",
+        name: email.split("@")[0],
       });
-      // navigate(PATH.login);
-      console.log("회원가입 시도");
+      navigate(PATH.login);
     } catch (error) {
-      console.log("error:", error);
+      if (error.response.data.statusCode === "4901") {
+        Alert({ errMsg: "이미 가입된 이메일 입니다.", icon: "error" });
+      }
     }
   };
 
@@ -115,9 +117,6 @@ const StContainer = styled.div`
 const StBox = styled.div`
   width: 500px;
   height: 700px;
-  /* border: 1px solid black; */
-  /* background-color: #d7e4f3; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -139,22 +138,13 @@ const StTitle = styled.div`
   font-weight: 900;
   font-size: 64px;
   line-height: 38px;
-  /* or 59% */
-
-  /* display: flex; */
-  /* align-items: center; */
-  /* text-align: center; */
   letter-spacing: 0.005em;
-
-  /* Character/Title .85 */
-
   color: rgba(0, 0, 0, 0.85);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const StForm = styled.div`
   width: 360px;
-  /* height: 350px; */
   display: flex;
   flex-direction: column;
   gap: 12px;
