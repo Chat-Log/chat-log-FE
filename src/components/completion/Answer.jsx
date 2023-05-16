@@ -29,12 +29,15 @@ const StContainer = styled.div`
   flex-direction: row;
 
   background: ${({ bg }) => bg || "#E9F2FF"};
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  /* border: 1px solid rgba(0, 0, 0, 0.15); */
   min-height: 70px;
 
   padding: 20px;
 
   margin-bottom: 10px;
+
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 `;
 const StProfile = styled.div`
   width: 40px;
@@ -52,6 +55,7 @@ const StBody = styled.div`
 
   line-height: 170%;
   font-size: 1.2rem;
+  color: #2e2e2e;
 `;
 
 const StNickname = styled.div`

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 
-import { FileOutlined, UserOutlined, SearchOutlined, QuestionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, TagsOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, FileOutlined, UserOutlined, SearchOutlined, QuestionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, TagsOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { __getTopics } from "../redux/modules/mainSlice";
 const { Sider } = Layout;
@@ -29,23 +29,21 @@ const AntdSider = () => {
   const param = useParams();
   const topicId = param.topicId;
 
-  // const b = [getItem("운영체제가뭐야?", "5"), getItem("네트워크가뭐야?", "6"), getItem("안녕?", "7")];
-  //   const a = titles?.map((title, index) => getItem(title, `${index + 5}`));
-  //   console.log(a);
-
   const titles = titleData?.map((item) => getItem(item?.title, item?.id));
 
+  // console.log(titles);
+
   useEffect(() => {
-    dispatch(__getTopics({ pagesize: "100", pageindex: "1" }));
+    dispatch(__getTopics({ pagesize: "10", pageindex: "1" }));
   }, [topicId]);
 
   const items = [
     getItem(
       "질문하기",
       "0",
-      <Link to={PATH.main}>
+      <a href={PATH.main} onClick={() => (window.location.href = PATH.main)}>
         <QuestionOutlined />
-      </Link>
+      </a>
     ),
     getItem(
       "내역",
@@ -98,7 +96,7 @@ const AntdSider = () => {
       style={{
         background: colorBgContainer,
         overflow: "auto",
-        // height: "100vh",
+        height: "100vh",
         marginRight: "5px",
       }}
     >

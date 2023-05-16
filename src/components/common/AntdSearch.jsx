@@ -16,4 +16,10 @@ export default AntdSearch;
 const StSearch = styled(Search)`
   width: ${({ width }) => width};
   max-width: ${({ mw }) => mw};
+
+  // Search box 내의 button 태그에 대한 스타일
+  .ant-input-search-button {
+    background-color: #4ea4f4;
+    border-color: #4ea4f4;
+  }
 `;

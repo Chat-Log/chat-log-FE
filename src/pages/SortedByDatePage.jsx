@@ -33,20 +33,24 @@ function SortedByDatePage() {
   const yearDates = useMemo(() => generateYearDates(currentYear), [currentYear]);
 
   const grassData = useSelector((state) => state.search?.dateData);
+  console.log(grassData[0]?.daily);
   const totalCount = grassData[0]?.yearly?.count;
 
   const navigate = useNavigate();
 
-  const fetchCompletionData = useCallback(() => {
-    dispatch(__getDailyCompletionCounts(currentYear));
+  const fetchCompletionData = useCallback(async () => {
+    const data = await dispatch(__getDailyCompletionCounts(currentYear));
+    console.log(data?.payload?.daily);
+    const dailyData = data?.payload?.daily;
 
-    // const yearDates = generateYearDates(currentYear);
-    const mockData = yearDates.reduce((acc, date) => {
-      acc[date] = Math.floor(Math.random() * 20); // 랜덤으로 일단 생성
+    const completionData = yearDates.reduce((acc, date) => {
+      const item = dailyData?.find((item) => item.date === date);
+      console.log(item);
+      acc[date] = item ? item.count : 0;
       return acc;
     }, {});
 
-    setCompletionData(mockData);
+    setCompletionData(completionData);
   }, [currentYear]);
 
   useEffect(() => {
@@ -112,7 +116,7 @@ function SortedByDatePage() {
   const dispatch = useDispatch();
   const searchData = useSelector((state) => state.search.data);
 
-  // console.log(searchData);
+  console.log(searchData);
 
   useEffect(() => {
     dispatch(__getSearch({ date: date }));

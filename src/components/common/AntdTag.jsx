@@ -2,8 +2,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Input, Space, Tag, Tooltip, theme } from "antd";
 import { useEffect, useRef, useState } from "react";
 
-const AntdTag = ({ tags, setTags }) => {
+const AntdTag = ({ tags, setTags, getTags }) => {
   const { token } = theme.useToken();
+
+  useEffect(() => {
+    if (getTags?.length > 0) {
+      setTags(getTags);
+    }
+    console.log("3");
+  }, [getTags?.length]);
 
   // const [tags, setTags] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);

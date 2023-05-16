@@ -40,7 +40,10 @@ const StContainer = styled.div`
 
   background: #ffffff;
   box-shadow: 0px 4px 16px #eae2fd;
-  border-radius: 8px;
+  border-radius: 15px;
+
+  /* box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); */
+  /* border-radius: 8px; */
 
   /* Inside auto layout */
 
@@ -48,6 +51,12 @@ const StContainer = styled.div`
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.03);
+  }
 `;
 
 const StTitle = styled.div`
