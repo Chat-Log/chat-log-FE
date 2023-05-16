@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { Button, Layout } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import AntdUser from "../components/common/AntdUser";
 import { PATH } from "../constants/index";
+import { Modal, Form, InputNumber, Input } from "antd";
 const { Header } = Layout;
 
 export const AntdHeader = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [historyLimit, setHistoryLimit] = useState(10);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <>
       <StHeader>
-        <Link to={PATH.main}>
+        <a href={PATH.main} onClick={() => (window.location.href = PATH.main)}>
           <StTitle>CHAT GPT</StTitle>
-        </Link>
+        </a>
         <StBox>
+          <Button type="primary" size="middle" icon={<SettingOutlined />} onClick={showModal} style={{ background: "transparent", boxShadow: "none" }} />
+          <Modal title="설정" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="확인" cancelText="닫기">
+            <Form>
+              <Form.Item label="닉네임" style={{ marginTop: "30px" }}>
+                <Input value={nickname} onChange={(e) => setNickname(e.target.value)} />
+              </Form.Item>
+              <Form.Item label="최근내역 개수">
+                <InputNumber min={1} value={historyLimit} onChange={(value) => setHistoryLimit(value)} />
+              </Form.Item>
+            </Form>
+          </Modal>
           <Button
             type="primary"
             size="middle"
