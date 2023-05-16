@@ -31,6 +31,8 @@ const AntdSider = () => {
 
   const titles = titleData?.map((item) => getItem(item?.title, item?.id));
 
+  // console.log(titles);
+
   useEffect(() => {
     dispatch(__getTopics({ pagesize: "10", pageindex: "1" }));
   }, [topicId]);
@@ -39,9 +41,9 @@ const AntdSider = () => {
     getItem(
       "질문하기",
       "0",
-      <Link to={PATH.main}>
+      <a href={PATH.main} onClick={() => (window.location.href = PATH.main)}>
         <QuestionOutlined />
-      </Link>
+      </a>
     ),
     getItem(
       "내역",
