@@ -18,6 +18,7 @@ const initialState = {
   titleData: [],
   topicData: [],
   modelData: [],
+  topicTitle: "",
 };
 
 export const __getTopics = createAsyncThunk("topics/get", async (payload, thunkAPI) => {
@@ -41,10 +42,9 @@ export const __patchGptKey = createAsyncThunk("gptKey/patch", async (payload, th
   }
 });
 
-export const __getTopicApi = createAsyncThunk("topic/get", async (payload, thunkAPI) => {
+export const __getTopic = createAsyncThunk("topic/get", async (payload, thunkAPI) => {
   try {
     const { data } = await api.getTopicApi(payload);
-    // console.log(data.data.props);
     return thunkAPI.fulfillWithValue(data.data.props);
   } catch (error) {
     // console.log(error);
@@ -54,6 +54,17 @@ export const __getTopicApi = createAsyncThunk("topic/get", async (payload, thunk
 export const __getModel = createAsyncThunk("model/get", async (_, thunkAPI) => {
   try {
     const { data } = await api.getModelApi();
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const __patchTopicTilte = createAsyncThunk("title/patch", async (payload, thunkAPI) => {
+  try {
+    console.log(payload);
+    const { data } = await api.patchTopicTitleApi(payload.topicId, { title: payload.title });
+    console.log(data.data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -99,14 +110,16 @@ export const mainSlice = createSlice({
       })
 
       // topic 가져오기
-      .addCase(__getTopicApi.pending, (state) => {
+      .addCase(__getTopic.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(__getTopicApi.fulfilled, (state, action) => {
+      .addCase(__getTopic.fulfilled, (state, action) => {
+        console.log(action.payload.title);
         state.isLoading = false;
         state.topicData = action.payload;
+        state.topicTitle = action.payload.title;
       })
-      .addCase(__getTopicApi.rejected, (state, action) => {
+      .addCase(__getTopic.rejected, (state, action) => {
         state.isLoading = false;
       })
 
@@ -119,6 +132,19 @@ export const mainSlice = createSlice({
         state.modelData = action.payload;
       })
       .addCase(__getModel.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+
+      // topic Title
+      .addCase(__patchTopicTilte.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__patchTopicTilte.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        state.topicTitle = action.payload.title;
+      })
+      .addCase(__patchTopicTilte.rejected, (state, action) => {
         state.isLoading = false;
       });
   },
