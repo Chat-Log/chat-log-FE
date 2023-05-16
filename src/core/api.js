@@ -15,6 +15,7 @@ export const api = {
   postCompletionApi: (completion) => baseURL.post(`topics/completion`, completion),
   getTopicApi: (topicId) => baseURL.get(`topics/${topicId}`),
   getModelApi: () => baseURL.get(`models`),
+  patchTopicTitleApi: (topicId, title) => baseURL.patch(`topics/${topicId}/title`, title),
 
   // 메뉴
   getTopicsApi: (pageInfo) => baseURL.get(`topics/recent`, { params: pageInfo }),
