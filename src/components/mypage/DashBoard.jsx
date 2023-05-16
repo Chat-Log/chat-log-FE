@@ -127,12 +127,12 @@ const DashBoard = () => {
             <StCells>{renderCompletionCells()}</StCells>
           </StGrass>
         </StBox>
-        <StBody>
+        <StCardBox>
           <AntdCard title="사용 토근수" body="126,560" width="300px" img={IMAGES.token} />
           <AntdCard title="예상 사용 요금" body="0.6$" width="300px" img={IMAGES.bill} />
           <AntdCard title="누적 질문 수" body="8,560" width="300px" img={IMAGES.question} />
           <AntdCard title="Chat GPT" body="" width="300px" img={IMAGES.gpt} imgWd="240px" height="120px" href="https://chat.openai.com/chat" />
-        </StBody>
+        </StCardBox>
       </AntdContent>
     </>
   );
@@ -141,7 +141,20 @@ const DashBoard = () => {
 export default DashBoard;
 
 const StBox = styled.div`
-  padding: 70px;
+  margin: 30px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.3s;
+  &:hover {
+    background: rgb(206, 207, 244);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  @media (max-width: 1300px) {
+    padding: 15px;
+  }
 `;
 
 const StGrass = styled.div`
@@ -156,24 +169,44 @@ const StDays = styled.div`
 
 const StCells = styled.div`
   display: flex;
+  /* overflow-x: hidden; */
 `;
 
-const StBody = styled.div`
+const StCardBox = styled.div`
+  /* width:100% */
   display: flex;
+
+  flex-wrap: wrap;
+  max-width: 99%;
+
   flex-direction: row;
   align-items: center;
-  margin: 0px 40px 40px 40px;
+  margin: 40px 40px 40px 40px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.3s;
+  &:hover {
+    background: rgb(206, 207, 244);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  }
 `;
 
 const DayLabel = styled.div`
   font-size: 1.3rem;
   padding-bottom: 5px;
+
+  @media (max-width: 1300px) {
+    font-size: 0.78rem;
+  }
 `;
 
 const Week = React.memo(styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 2px;
+  /* overflow-x: hidden; */
 `);
 
 const CompletionCell = React.memo(styled.div.attrs((props) => ({
@@ -187,9 +220,13 @@ const CompletionCell = React.memo(styled.div.attrs((props) => ({
   cursor: pointer;
   margin-bottom: 2px;
 
+  @media (max-width: 1300px) {
+    width: 15px; // 셀의 크기를 줄입니다.
+    height: 15px;
+  }
+
   &:hover::before {
     content: "${(props) => (props.date && typeof props.count !== "undefined" ? `${props.date} - ${props.count} completions` : "")}";
-    /* content: "${(props) => `${props.date} - ${props.count} completions`}"; */
     position: absolute;
     left: 100%;
     top: -50%;
@@ -227,6 +264,6 @@ const YearSelector = styled.div`
     /* margin-left: 10px; */
     font-size: 1.3rem;
     color: #4a8aeb;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
   }
 `;
