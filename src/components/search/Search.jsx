@@ -15,8 +15,14 @@ import AntdRadio from "../common/AntdRadio";
 import AntdSearch from "../common/AntdSearch";
 import AntdSubHeader from "../common/AntdSubHeader";
 
+import AntdPagination from "../common/AntdPagination";
+
 const Search = () => {
   const dispatch = useDispatch();
+
+  // 페이지
+  const [currentPage, setCurrentPage] = useState("1");
+  const [itemsPerPage, setItemsPerPage] = useState("3");
 
   const searchData = useSelector((state) => state.search.data);
   const tagData = useSelector((state) => state.search.tagData);
@@ -41,12 +47,12 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(__getSearch({ pagesize: "100", pageindex: "1" }));
-  }, []);
+    dispatch(__getSearch({ pagesize: itemsPerPage, pageindex: currentPage }));
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(__getTag());
-  }, []);
+  }, [dispatch]);
 
   const options = {
     model: modelData?.map((model) => {
@@ -77,6 +83,7 @@ const Search = () => {
   };
 
   const searchHandler = () => {
+    setCurrentPage("1");
     dispatch(
       __getSearch({
         modelnames: selectedModel !== [] ? selectedModel : null,
@@ -85,8 +92,25 @@ const Search = () => {
         searchtype: searchType,
         onlylastcompletions: onlyLastCompletion,
         query: query !== "" ? query : null,
-        pagesize: "100",
+        pagesize: itemsPerPage,
         pageindex: "1",
+      })
+    );
+  };
+
+  // 페이지 번호가 변경되었을 때의 핸들러
+  const changePageHandler = (page) => {
+    setCurrentPage(page);
+    dispatch(
+      __getSearch({
+        modelnames: selectedModel.length > 0 ? selectedModel : null,
+        tagnames: selectedTag.length > 0 ? selectedTag : null,
+        date: date !== "" ? date : null,
+        searchtype: searchType,
+        onlylastcompletions: onlyLastCompletion,
+        query: query !== "" ? query : null,
+        pagesize: itemsPerPage,
+        pageindex: page,
       })
     );
   };
@@ -124,6 +148,15 @@ const Search = () => {
             <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
           )}
         </CardBox>
+        {/* <div style={{ textAlign: "center" }}>
+          <Pagination
+            defaultCurrent={1}
+            total={100} // 총 항목 수를 서버로부터 받아온 값 사용
+            pageSize={itemsPerPage}
+            onChange={changePageHandler} // 페이지 번호가 변경되었을 때의 핸들러
+          />
+        </div> */}
+        <AntdPagination total={100} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
       </AntdContent>
     </>
   );
