@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
@@ -11,10 +11,10 @@ import SortedByTagPage from "../pages/SortedByTagPage";
 import SortedByDatePage from "../pages/SortedByDatePage";
 import MyPage from "../pages/MyPage";
 
-const Router = () => {
+const AppRouter = () => {
   return (
     <>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route element={<AntdLayout />}>
             <Route path="/search" element={<SearchPage />} />
@@ -30,9 +30,9 @@ const Router = () => {
             <Route path="/forgot" element={<ForgotUserInfoPage />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   );
 };
 
-export default Router;
+export default AppRouter;
