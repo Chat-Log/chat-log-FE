@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { IMAGES } from "../../constants";
-import { reformatDate } from "../auth/func";
-import MarkdownRender from "../completion/MarkdownRender";
 
-const Card = ({ title, question, answer, tags, createdAt }) => {
+import { MarkdownRender } from "../completion";
+
+import { IMAGES } from "../../constants";
+import { reformatDate } from "../../func/func";
+
+export const Card = ({ title, question, answer, tags, createdAt }) => {
   return (
     <StContainer>
       {title ? <StTitle>{title}</StTitle> : null}
@@ -25,8 +27,6 @@ const Card = ({ title, question, answer, tags, createdAt }) => {
     </StContainer>
   );
 };
-
-export default Card;
 
 const StContainer = styled.div`
   display: flex;

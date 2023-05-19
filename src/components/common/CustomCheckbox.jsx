@@ -1,7 +1,7 @@
 import { Checkbox } from "antd";
 import styled from "styled-components";
 
-const AntdCheckBox = ({ onChange, children, margin }) => {
+export const CustomCheckbox = ({ onChange, children, margin }) => {
   return (
     <>
       <StCheckBox onChange={onChange} margin={margin}>
@@ -10,7 +10,6 @@ const AntdCheckBox = ({ onChange, children, margin }) => {
     </>
   );
 };
-export default AntdCheckBox;
 
 const StCheckBox = styled(Checkbox)`
   margin: ${({ margin }) => margin};

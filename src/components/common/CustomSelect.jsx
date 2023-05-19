@@ -1,17 +1,14 @@
-import { Radio, Select } from "antd";
-import { useState } from "react";
 import styled from "styled-components";
 
-const AntdSelect = ({ options, defaultValue, onChange }) => {
-  const [placement, SetPlacement] = useState("bottomLeft");
+import { Select } from "antd";
 
+export const CustomSelect = ({ options, defaultValue, onChange, placement }) => {
   return (
     <>
       <StSelect defaultValue={defaultValue} dropdownMatchSelectWidth={false} placement={placement} options={options} onChange={onChange} />
     </>
   );
 };
-export default AntdSelect;
 
 const StSelect = styled(Select)`
   width: 170px;

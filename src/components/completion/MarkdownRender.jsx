@@ -1,26 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+
 import ReactMarkdown from "react-markdown";
-// 중간줄 구현
 import remarkGfm from "remark-gfm";
 
-//
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 function BlockQutoe(children) {
   return (
-    <BlockQutoeStyle>
+    <StBlockQutoe>
       <span>{children.children}</span>
-    </BlockQutoeStyle>
+    </StBlockQutoe>
   );
 }
 
-const MarkdownRender = ({ markdown, height, fontsize, margin, overflow, cursor, onClick, color }) => {
-  // console.log(markdown);
-
+export const MarkdownRender = ({ markdown, height, fontsize, margin, overflow, cursor, onClick, color }) => {
   return (
-    <MarkDownStyle fontsize={fontsize} color={color} margin={margin} overflow={overflow} cursor={cursor} onClick={onClick}>
-      <TableContainer height={height}>
+    <StMarkDown fontsize={fontsize} color={color} margin={margin} overflow={overflow} cursor={cursor} onClick={onClick}>
+      <StTableContainer height={height}>
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           children={markdown}
@@ -38,24 +35,28 @@ const MarkdownRender = ({ markdown, height, fontsize, margin, overflow, cursor, 
             },
           }}
         ></ReactMarkdown>
-      </TableContainer>
-    </MarkDownStyle>
+      </StTableContainer>
+    </StMarkDown>
   );
 };
 
-const MarkDownStyle = styled.div`
+const StMarkDown = styled.div`
+  margin: ${({ margin }) => margin || "0"};
+
+  color: ${({ color }) => color || "gray"};
+
   font-size: ${({ fontsize }) => fontsize || "16px"};
   line-height: 2.5rem;
+
   overflow-y: ${({ overflow }) => overflow || "auto"};
-  margin: ${({ margin }) => margin || "0"};
-  color: ${({ color }) => color || "gray"};
   cursor: ${({ cursor }) => cursor || "default"};
 `;
 
 // 표일 때
-const TableContainer = styled.div`
-  height: ${({ height }) => height || "200px"};
+const StTableContainer = styled.div`
   width: 100%;
+  height: ${({ height }) => height || "200px"};
+
   img {
     width: 50%;
     height: 100%;
@@ -72,17 +73,18 @@ const TableContainer = styled.div`
   }
 `;
 
-const BlockQutoeStyle = styled.blockquote`
+const StBlockQutoe = styled.blockquote`
   width: 97%;
-  padding: 0 0.8rem;
-  border-left: 5px solid var(--color-deep-red);
+
   margin-left: 0;
-  background-color: var(--color-light-gray);
+  padding: 0 0.8rem;
+
   color: white;
+  background-color: var(--color-light-gray);
+
+  border-left: 5px solid var(--color-deep-red);
   span {
     color: white;
     background-color: transparent;
   }
 `;
-
-export default MarkdownRender;

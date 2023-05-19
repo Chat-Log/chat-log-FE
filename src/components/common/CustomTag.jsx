@@ -1,18 +1,17 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Input, Space, Tag, Tooltip, theme } from "antd";
 import { useEffect, useRef, useState } from "react";
 
-const AntdTag = ({ tags, setTags, getTags }) => {
+import { Input, Space, Tag, Tooltip, theme } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+
+export const CustomTag = ({ tags, setTags, getTags }) => {
   const { token } = theme.useToken();
 
   useEffect(() => {
     if (getTags?.length > 0) {
       setTags(getTags);
     }
-    console.log("3");
   }, [getTags?.length]);
 
-  // const [tags, setTags] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -74,8 +73,6 @@ const AntdTag = ({ tags, setTags, getTags }) => {
     borderStyle: "dashed",
   };
 
-  // console.log(tags);
-
   return (
     <Space size={[0, 8]} wrap>
       <Space size={[0, 8]} wrap>
@@ -134,4 +131,3 @@ const AntdTag = ({ tags, setTags, getTags }) => {
     </Space>
   );
 };
-export default AntdTag;

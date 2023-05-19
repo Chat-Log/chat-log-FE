@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Content } from "antd/es/layout/layout";
 import { theme } from "antd";
 
-const AntdContent = ({ children, of }) => {
+export const CustomContent = ({ children, of }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -16,8 +16,6 @@ const AntdContent = ({ children, of }) => {
     </>
   );
 };
-
-export default AntdContent;
 
 const StContent = styled(Content)`
   /* padding: 10px; */

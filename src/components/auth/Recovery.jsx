@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
 import { useNavigate } from "react-router-dom";
 
-import Button from "../common/Button";
-import styled from "styled-components";
-import Input from "../common/AntdInput";
-import Tab from "../common/AntdTabs";
+import { CustomAlert, CustomButton, CustomTabs, CustomInput } from "../common/index";
+
 import { api } from "../../core/api";
 import { ICON, PATH } from "../../constants";
-import { Alert } from "../common/Alert";
 
-const EmailRecovery = () => {
+const Recovery = () => {
   const navigate = useNavigate();
 
   const [phoneNum, setPhoneNum] = useState("");
@@ -42,15 +41,15 @@ const EmailRecovery = () => {
     {
       key: "1",
       label: `이메일 찾기`,
-      children: <Input ph="PHONE NUMBER" prefix={ICON.phone} name="phone" value={phoneNum} onChange={changeHandler} />,
+      children: <CustomInput ph="PHONE NUMBER" prefix={ICON.phone} name="phone" value={phoneNum} onChange={changeHandler} />,
     },
     {
       key: "2",
       label: `비밀번호 초기화`,
       children: (
         <>
-          <Input ph="PHONE NUMBER" prefix={ICON.phone} mb="20px" name="phone" value={phoneNum} onChange={changeHandler} />
-          <Input ph="E-mail" prefix={ICON.user} name="email" value={email} onChange={changeHandler} />
+          <CustomInput ph="PHONE NUMBER" prefix={ICON.phone} mb="20px" name="phone" value={phoneNum} onChange={changeHandler} />
+          <CustomInput ph="E-mail" prefix={ICON.user} name="email" value={email} onChange={changeHandler} />
         </>
       ),
     },
@@ -59,9 +58,9 @@ const EmailRecovery = () => {
       label: `비밀번호 변경`,
       children: (
         <>
-          <Input ph="E-mail" prefix={ICON.user} name="email" mb="20px" value={email} onChange={changeHandler} />
-          <Input ph="현재 비밀번호" prefix={ICON.password} mb="20px" name="oldPwd" value={oldPwd} onChange={changeHandler} type="password" />
-          <Input ph="새로운 비밀번호" prefix={ICON.password} name="newPwd" value={newPwd} onChange={changeHandler} type="password" />
+          <CustomInput ph="E-mail" prefix={ICON.user} name="email" mb="20px" value={email} onChange={changeHandler} />
+          <CustomInput ph="현재 비밀번호" prefix={ICON.password} mb="20px" name="oldPwd" value={oldPwd} onChange={changeHandler} type="password" />
+          <CustomInput ph="새로운 비밀번호" prefix={ICON.password} name="newPwd" value={newPwd} onChange={changeHandler} type="password" />
         </>
       ),
     },
@@ -73,19 +72,19 @@ const EmailRecovery = () => {
         const res = await api.getEmailApi({
           phone: phoneNum,
         });
-        Alert({ title: "등록된 이메일: " + res.data.data.email });
+        CustomAlert({ title: "등록된 이메일: " + res.data.data.email });
       } catch (error) {
         if (error.response.data.statusCode === "4402") {
-          Alert({ errMsg: "가입되지 않는 전화번호입니다.", icon: "error" });
+          CustomAlert({ errMsg: "가입되지 않는 전화번호입니다.", icon: "error" });
         }
       }
     } else if (key === "2") {
       try {
         const res = await api.patchPwdApi({ email: email, phone: phoneNum });
-        Alert({ title: "초기화된 비밀번호: " + res.data.data.password, icon: "success" });
+        CustomAlert({ title: "초기화된 비밀번호: " + res.data.data.password, icon: "success" });
       } catch (error) {
         if (error.response.data.statusCode === "4402") {
-          Alert({ errMsg: "가입되지 않은 유저정보입니다.", icon: "error" });
+          CustomAlert({ errMsg: "가입되지 않은 유저정보입니다.", icon: "error" });
         }
       }
     } else {
@@ -99,14 +98,14 @@ const EmailRecovery = () => {
           localStorage.setItem("id", res.data.data.id);
           const resetPwdRes = await api.patchResetPwdApi({ oldPassword: oldPwd, newPassword: newPwd });
           console.log(resetPwdRes.data.data);
-          Alert({ errMsg: "변경된 비밀번호로 로그인 었습니다!" });
+          CustomAlert({ errMsg: "변경된 비밀번호로 로그인 었습니다!" });
           navigate(PATH.main);
         }
       } catch (error) {
         if (error.response.data.statusCode === "4401") {
-          Alert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
+          CustomAlert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
         } else if (error.response.data.statusCode === "4402") {
-          Alert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
+          CustomAlert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
         } else {
           console.log(error.response.data);
         }
@@ -131,18 +130,18 @@ const EmailRecovery = () => {
       <StBox>
         <StTitle>Chat Log</StTitle>
         <StDiv>
-          <Button name="로그인" type="link" color="#1890FF" href={PATH.login} />
+          <CustomButton name="로그인" type="link" color="#1890FF" href={PATH.login} />
         </StDiv>
         <StForm>
-          <Tab width="360px" items={items} onChange={onChange} />
-          <Button name="확인" type="primary" width="250px" onClick={submitHandler} />
+          <CustomTabs width="360px" items={items} onChange={onChange} />
+          <CustomButton name="확인" type="primary" width="250px" onClick={submitHandler} />
         </StForm>
       </StBox>
     </StContainer>
   );
 };
 
-export default EmailRecovery;
+export default Recovery;
 
 const StContainer = styled.div`
   display: flex;

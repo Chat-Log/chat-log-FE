@@ -3,15 +3,13 @@ import styled from "styled-components";
 
 import { DatePicker } from "antd";
 
-const AntdDatePicker = ({ onChange }) => {
+export const CustomDatePicker = ({ onChange }) => {
   return (
     <>
       <StDatePicker onChange={onChange} />
     </>
   );
 };
-
-export default AntdDatePicker;
 
 const StDatePicker = styled(DatePicker)`
   margin: 15px 0px 0px 0px;

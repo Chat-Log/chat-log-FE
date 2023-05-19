@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 
-import { EditOutlined, DeleteOutlined, FileOutlined, UserOutlined, SearchOutlined, QuestionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, TagsOutlined } from "@ant-design/icons";
+import { FileOutlined, UserOutlined, SearchOutlined, QuestionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, TagsOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { __getTopics } from "../redux/modules/mainSlice";
 const { Sider } = Layout;
@@ -18,20 +18,17 @@ function getItem(label, key, icon, children) {
   };
 }
 
-// [getItem("운영체제가뭐야?", "5"), getItem("네트워크가뭐야?", "6"), getItem("안녕?", "7")]
-
 const AntdSider = () => {
   const dispatch = useDispatch();
-  const titleData = useSelector((state) => state.main?.titleData);
   const navigate = useNavigate();
 
-  const [collapsed, setCollapsed] = useState(false);
   const param = useParams();
   const topicId = param.topicId;
 
-  const titles = titleData?.map((item) => getItem(item?.title, item?.id));
+  const [collapsed, setCollapsed] = useState(false);
 
-  // console.log(titles);
+  const titleData = useSelector((state) => state.main?.titleData);
+  const titles = titleData?.map((item) => getItem(item?.title, item?.id));
 
   useEffect(() => {
     dispatch(__getTopics({ pagesize: "10", pageindex: "1" }));
@@ -41,19 +38,11 @@ const AntdSider = () => {
     getItem(
       "질문하기",
       "0",
-      <a href={PATH.main} onClick={() => (window.location.href = PATH.main)}>
+      <Link to={PATH.main}>
         <QuestionOutlined />
-      </a>
+      </Link>
     ),
-    getItem(
-      "내역",
-      "1",
-      // <Link to={PATH.search}>
-      <FileOutlined />,
-      // </Link>,
-      titles
-      // [getItem("운영체제가뭐야?", "5"), getItem("네트워크가뭐야?", "6"), getItem("안녕?", "7")]
-    ),
+    getItem("내역", "1", <FileOutlined />, titles),
     getItem(
       "마이페이지",
       "2",
@@ -103,7 +92,6 @@ const AntdSider = () => {
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}
-        // 처음에 열리는거
         style={{
           borderRight: 0,
           width: collapsed ? "80px" : "250px",

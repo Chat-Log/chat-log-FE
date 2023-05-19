@@ -4,7 +4,7 @@ import { Collapse, theme } from "antd";
 
 const { Panel } = Collapse;
 
-const AntdCollapse = ({ children }) => {
+export const CustomCollapse = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -19,8 +19,6 @@ const AntdCollapse = ({ children }) => {
     </>
   );
 };
-
-export default AntdCollapse;
 
 const StCollapse = styled(Collapse)`
   background: ${({ bg }) => bg};

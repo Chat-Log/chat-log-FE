@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Button from "../common/Button";
 import styled from "styled-components";
-import Input from "../common/AntdInput";
-import { Alert } from "../common/Alert";
 
-import { ICON, PATH } from "../../constants/index";
+import { useNavigate, Link } from "react-router-dom";
+
+import { CustomButton, CustomAlert, CustomInput } from "../common/";
+
+import { ICON, PATH } from "../../constants";
 import { api } from "../../core/api";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,15 +38,17 @@ const Login = () => {
         password: pwd,
       });
       if (res.status === 201) {
+        console.log(res.data.data);
         localStorage.setItem("accessToken", "Bearer " + res.data.data.accessToken);
         localStorage.setItem("id", res.data.data.id);
+        localStorage.setItem("name", res.data.data.name);
       }
       navigate(PATH.main);
     } catch (error) {
       if (error.response.data.statusCode === "4401") {
-        Alert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
+        CustomAlert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
       } else if (error.response.data.statusCode === "4402") {
-        Alert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
+        CustomAlert({ errMsg: "비밀번호를 확인해주세요!", icon: "error" });
       }
     }
   };
@@ -57,13 +59,16 @@ const Login = () => {
         <StTitle>Chat Log</StTitle>
         <StForm>
           <StDiv>
-            {/* <Button name="로그인" type="link" color="#1890FF" /> */}
-            <Button name="ID/PWD 찾기" type="link" color="#1890FF" href={PATH.forgot} />
+            <Link to={PATH.help}>
+              <CustomButton name="ID/PWD 찾기" type="link" color="#1890FF" />
+            </Link>
           </StDiv>
-          <Input ph="E-mail" prefix={ICON.user} onChange={onChangeHandler} value={email} id="email" />
-          <Input ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} value={pwd} id="pwd" type="password" />
-          <Button type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
-          <Button type="link" href={PATH.signup} name="회원가입" color="#1890FF" />
+          <CustomInput ph="E-mail" prefix={ICON.user} onChange={onChangeHandler} value={email} id="email" />
+          <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} value={pwd} id="pwd" type="password" />
+          <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
+          <Link to={PATH.signup}>
+            <CustomButton type="link" name="회원가입" color="#1890FF" />
+          </Link>
         </StForm>
       </StBox>
     </StContainer>

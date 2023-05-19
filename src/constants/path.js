@@ -5,7 +5,7 @@ export const PATH = {
   search: "/search",
   signup: "/signup",
   login: "/",
-  forgot: "/forgot",
+  help: "/user/help",
 
   //
   date: (date) => `/date/${date}`,

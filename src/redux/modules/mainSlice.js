@@ -2,15 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../core/api";
 
 const initialState = {
-  data: [
-    {
-      modelName: "",
-      question: "",
-      tagNames: [],
-      topicId: "",
-      prevCompletionIds: [],
-    },
-  ],
   dataChunks: [],
   apiKey: "",
   isLoading: false,
@@ -18,7 +9,6 @@ const initialState = {
   titleData: [],
   topicData: [],
   modelData: [],
-  topicTitle: "",
 };
 
 export const __getTopics = createAsyncThunk("topics/get", async (payload, thunkAPI) => {
@@ -60,7 +50,7 @@ export const __getModel = createAsyncThunk("model/get", async (_, thunkAPI) => {
   }
 });
 
-export const __patchTopicTilte = createAsyncThunk("title/patch", async (payload, thunkAPI) => {
+export const __patchTopicTitle = createAsyncThunk("title/patch", async (payload, thunkAPI) => {
   try {
     console.log(payload);
     const { data } = await api.patchTopicTitleApi(payload.topicId, { title: payload.title });
@@ -74,12 +64,7 @@ export const __patchTopicTilte = createAsyncThunk("title/patch", async (payload,
 export const mainSlice = createSlice({
   name: "main",
   initialState,
-  reducers: {
-    completionInfo: (state, action) => {
-      console.log(action.payload);
-      state.data = [action.payload];
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
 
@@ -114,10 +99,8 @@ export const mainSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(__getTopic.fulfilled, (state, action) => {
-        console.log(action.payload.title);
         state.isLoading = false;
         state.topicData = action.payload;
-        state.topicTitle = action.payload.title;
       })
       .addCase(__getTopic.rejected, (state, action) => {
         state.isLoading = false;
@@ -136,19 +119,18 @@ export const mainSlice = createSlice({
       })
 
       // topic Title
-      .addCase(__patchTopicTilte.pending, (state) => {
+      .addCase(__patchTopicTitle.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(__patchTopicTilte.fulfilled, (state, action) => {
+      .addCase(__patchTopicTitle.fulfilled, (state, action) => {
         state.isLoading = false;
         console.log(action.payload);
         state.topicTitle = action.payload.title;
       })
-      .addCase(__patchTopicTilte.rejected, (state, action) => {
+      .addCase(__patchTopicTitle.rejected, (state, action) => {
         state.isLoading = false;
       });
   },
 });
 
-export const { completionInfo } = mainSlice.actions;
 export default mainSlice.reducer;

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-
-import Button from "../common/Button";
 import styled from "styled-components";
-import Input from "../common/AntdInput";
-import { Alert } from "../common/Alert";
-import { isValidEmail, isValidPassword, isValidPhoneNumber } from "./func";
 
-import { ICON, PATH } from "../../constants/index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import { CustomButton, CustomInput, CustomAlert } from "../common";
+
 import { api } from "../../core/api";
+import { ICON, PATH } from "../../constants";
+import { isValidEmail, isValidPassword, isValidPhoneNumber } from "../../func/func";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -75,7 +74,7 @@ const SignUp = () => {
       navigate(PATH.login);
     } catch (error) {
       if (error.response.data.statusCode === "4901") {
-        Alert({ errMsg: "이미 가입된 이메일 입니다.", icon: "error" });
+        CustomAlert({ errMsg: "이미 가입된 이메일 입니다.", icon: "error" });
       }
     }
   };
@@ -86,22 +85,24 @@ const SignUp = () => {
         <StTitle>Chat Log</StTitle>
         <StForm>
           <StDiv>
-            <Button name="로그인" type="link" color="#1890FF" href={PATH.login} />
+            <Link to={PATH.login}>
+              <CustomButton name="로그인" type="link" color="#1890FF" />
+            </Link>
           </StDiv>
           <StLabel>이메일</StLabel>
-          <Input ph="E-mail" prefix={ICON.user} onChange={changeEmailHandler} />
+          <CustomInput ph="E-mail" prefix={ICON.user} onChange={changeEmailHandler} />
           {emailError && email !== "" && "올바른 이메일 형식으로 작성해주세요."}
           <StLabel>비밀번호</StLabel>
-          <Input ph="PASSWARD" prefix={ICON.password} onChange={changePwdHandler} type="password" />
+          <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={changePwdHandler} type="password" />
           {pwdError && pwd !== "" && "영문, 숫자, 특수문자가 모두 포함된 8~13자리로 작성해주세요."}
           <StLabel>비밀번호 확인</StLabel>
-          <Input ph="CONFIRM PASSWARD" prefix={ICON.password} onChange={changePwdConfirmHandler} type="password" />
+          <CustomInput ph="CONFIRM PASSWARD" prefix={ICON.password} onChange={changePwdConfirmHandler} type="password" />
           {pwdConfirmError && pwdConfirm !== "" && "비밀번호가 일치하지 않습니다."}
           <StLabel>휴대폰 번호</StLabel>
-          <Input ph="010-1111-2222" prefix={ICON.phone} onChange={changePhoneNumberHandler} />
+          <CustomInput ph="010-1111-2222" prefix={ICON.phone} onChange={changePhoneNumberHandler} />
           {phoneNumberError && phoneNumber !== "" && "올바른 휴대폰 번호 형식으로 작성해주세요."}
         </StForm>
-        <Button type="primary" name="회원가입" width="250px" bgc="#8FC6FA" disabled={disabled} onClick={submitHandler} />
+        <CustomButton type="primary" name="회원가입" width="250px" bgc="#8FC6FA" disabled={disabled} onClick={submitHandler} />
       </StBox>
     </StContainer>
   );

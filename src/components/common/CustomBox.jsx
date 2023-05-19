@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Card } from "antd";
 
-export const AntdCard = ({ title, body, img, width, imgWd, height, href }) => {
+export const CustomBox = ({ title, body, img, width, imgWd, height, href }) => {
   return (
     <>
       <StCard
@@ -20,8 +20,6 @@ export const AntdCard = ({ title, body, img, width, imgWd, height, href }) => {
     </>
   );
 };
-
-export default AntdCard;
 
 const StCard = styled(Card)`
   width: ${({ width }) => width};

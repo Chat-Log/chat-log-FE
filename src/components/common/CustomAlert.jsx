@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const Alert = ({ title, errMsg, icon, image }) => {
+export const CustomAlert = ({ title, errMsg, icon, image }) => {
   Swal.fire({
     imageUrl: image,
     icon: icon,
