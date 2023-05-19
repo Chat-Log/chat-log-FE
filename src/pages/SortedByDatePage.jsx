@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
-import styled from "styled-components";
-import Card from "../components/card/Card";
-import CardBox from "../components/card/CardBox";
-import AntdContent from "../components/common/AntdContent";
-import AntdSubHeader from "../components/common/AntdSubHeader";
-
-import { PATH } from "../constants/index";
-
 import { useDispatch, useSelector } from "react-redux";
 import { __getDailyCompletionCounts, __getSearch } from "../redux/modules/searchSlice";
 import { useParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import { Card, CardBox } from "../components/card";
+
+import { CustomContent } from "../components/common";
+
+import { PATH } from "../constants";
 
 const generateYearDates = (year) => {
   const dates = [];
@@ -27,7 +25,7 @@ const generateYearDates = (year) => {
   return dates;
 };
 
-function SortedByDatePage() {
+const SortedByDatePage = () => {
   const [completionData, setCompletionData] = useState({});
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const yearDates = useMemo(() => generateYearDates(currentYear), [currentYear]);
@@ -124,7 +122,7 @@ function SortedByDatePage() {
 
   return (
     <>
-      <AntdContent>
+      <CustomContent>
         <StBox>
           <YearSelector>
             {/* <button onClick={() => changeYear(-1)}>이전 년도</button> */}
@@ -146,10 +144,10 @@ function SortedByDatePage() {
             <StNoSearchedData>데이터가 없습니다.</StNoSearchedData>
           )}
         </CardBox>
-      </AntdContent>
+      </CustomContent>
     </>
   );
-}
+};
 
 export default SortedByDatePage;
 

@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { Button, Layout } from "antd";
+import styled from "styled-components";
+
+import { CustomUser } from "../components/common";
+
+import { PATH } from "../constants";
+
+import { Modal, Form, InputNumber, Input, Button, Layout } from "antd";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
-import AntdUser from "../components/common/AntdUser";
-import { PATH } from "../constants/index";
-import { Modal, Form, InputNumber, Input } from "antd";
 const { Header } = Layout;
 
 export const AntdHeader = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nickname, setNickname] = useState("");
   const [historyLimit, setHistoryLimit] = useState(10);
+
+  const name = localStorage.getItem("name");
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -29,9 +33,9 @@ export const AntdHeader = () => {
   return (
     <>
       <StHeader>
-        <a href={PATH.main} onClick={() => (window.location.href = PATH.main)}>
+        <Link to={PATH.main}>
           <StTitle>CHAT GPT</StTitle>
-        </a>
+        </Link>
         <StBox>
           <Button type="primary" size="middle" icon={<SettingOutlined />} onClick={showModal} style={{ background: "transparent", boxShadow: "none" }} />
           <Modal title="설정" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="확인" cancelText="닫기">
@@ -56,9 +60,9 @@ export const AntdHeader = () => {
             style={{ background: "transparent", boxShadow: "none" }}
           />
           <Link to={PATH.mypage}>
-            <AntdUser />
+            <CustomUser />
           </Link>
-          <div>Lee Shin</div>
+          <div>{name}</div>
         </StBox>
       </StHeader>
     </>

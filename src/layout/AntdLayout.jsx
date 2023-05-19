@@ -1,7 +1,6 @@
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import AntdSubHeader from "../components/common/AntdSubHeader";
 import AntdHeader from "./AntdHeader";
 import AntdSider from "./AntdSider";
 
