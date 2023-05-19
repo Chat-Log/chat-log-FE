@@ -13,9 +13,6 @@ const initialState = {
 export const __getSearch = createAsyncThunk("search/get", async (payload, thunkAPI) => {
   try {
     const { data } = await api.getSearchApi(payload);
-
-    console.log(data);
-
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
