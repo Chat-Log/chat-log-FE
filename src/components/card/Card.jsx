@@ -32,8 +32,11 @@ const StContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 30px 30px;
-  gap: 10px;
+  padding: 30px;
+
+  font-family: "MaplestoryOTFLight";
+
+  /* gap: 10px; */
 
   /* width: 90%;
   height: 299px; */
@@ -69,9 +72,8 @@ const StTitle = styled.div`
   width: 80%;
   height: 22px;
 
-  font-family: "Inter";
   font-weight: 700;
-  font-size: 2.3rem;
+  font-size: 1.7rem;
   margin-bottom: 10px;
 
   /* Inside auto layout */
@@ -85,8 +87,6 @@ const StQuestion = styled.div`
   /* width: 100%; */
   height: 45px;
 
-  font-family: "Inter";
-  font-style: normal;
   font-size: 1.2rem;
   line-height: 130%;
   /* or 18px */
@@ -146,14 +146,11 @@ const StTags = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* justify-content: center; */
   gap: 8px;
 
-  /* width: 135px; */
   height: 22px;
-  /* border: 1px solid black; */
 
-  /* Inside auto layout */
+  margin: 10px 10px 0 10px;
 
   flex: none;
   order: 3;
@@ -164,7 +161,6 @@ const StDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
   align-items: center;
 `;
 

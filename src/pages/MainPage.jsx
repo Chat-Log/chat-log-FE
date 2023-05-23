@@ -216,6 +216,8 @@ export default MainPage;
 
 const StP = styled.p`
   font-size: 2rem;
+
+  font-family: "MaplestoryOTFLight";
 `;
 
 const StTitleBox = styled.div`
