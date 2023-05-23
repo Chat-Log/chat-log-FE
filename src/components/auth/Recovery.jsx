@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { CustomAlert, CustomButton, CustomTabs, CustomInput } from "../common/index";
 
@@ -130,7 +130,9 @@ const Recovery = () => {
       <StBox>
         <StTitle>Chat Log</StTitle>
         <StDiv>
-          <CustomButton name="로그인" type="link" color="#1890FF" href={PATH.login} />
+          <Link to={PATH.login}>
+            <CustomButton name="로그인" type="link" color="#1890FF" />
+          </Link>
         </StDiv>
         <StForm>
           <CustomTabs width="360px" items={items} onChange={onChange} />
