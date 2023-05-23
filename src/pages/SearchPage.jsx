@@ -17,6 +17,7 @@ const SearchPage = () => {
 
   const searchData = useSelector((state) => state.search.data);
   const tagData = useSelector((state) => state.search.tagData);
+  const totalCount = useSelector((state) => state.search?.totalCount);
   const modelData = useSelector((state) => state.main.modelData);
 
   const [tags, setTags] = useState(tagData);
@@ -47,7 +48,7 @@ const SearchPage = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(__getSearch({ pagesize: itemsPerPage, pageindex: currentPage }));
+    dispatch(__getSearch({ pagesize: itemsPerPage, pageindex: currentPage, searchtype: searchType, onlylastcompletions: onlyLastCompletion }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -93,13 +94,14 @@ const SearchPage = () => {
         onlylastcompletions: onlyLastCompletion,
         query: query !== "" ? query : null,
         pagesize: itemsPerPage,
-        pageindex: "1",
+        pageindex: currentPage,
       })
     );
   };
 
   // 페이지 번호가 변경되었을 때의 핸들러
   const changePageHandler = (page) => {
+    console.log(page);
     setCurrentPage(page);
     dispatch(
       __getSearch({
@@ -148,7 +150,7 @@ const SearchPage = () => {
             <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
           )}
         </CardBox>
-        <CustomPagination total={100} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
+        <CustomPagination total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
       </CustomContent>
     </>
   );

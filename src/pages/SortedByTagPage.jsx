@@ -18,6 +18,7 @@ const SortedByTagPage = () => {
 
   const tagData = useSelector((state) => state.search.tagData);
   const searchData = useSelector((state) => state.search.data);
+  const totalCount = useSelector((state) => state.search?.totalCount);
 
   useEffect(() => {
     dispatch(__getTag());
@@ -25,6 +26,8 @@ const SortedByTagPage = () => {
 
   useEffect(() => {
     if (selectedTags.length > 0) {
+      dispatch(__getSearch({ tagnames: selectedTags, pagesize: itemsPerPage, pageindex: currentPage }));
+    } else {
       dispatch(__getSearch({ tagnames: selectedTags, pagesize: itemsPerPage, pageindex: currentPage }));
     }
   }, [selectedTags, currentPage]);
@@ -56,20 +59,16 @@ const SortedByTagPage = () => {
         </StTagContainer>
       </CustomSubHeader>
       <CustomContent>
-        {selectedTags.length === 0 ? (
-          <NoSelectedTagMessage>태그를 선택해주세요</NoSelectedTagMessage>
-        ) : (
-          <>
-            <CardBox>
-              {searchData.length > 0 ? (
-                searchData?.map((item, index) => <Card key={index} title={item?.title} question={item?.question} answer={item?.answer} tags={item?.tags} createdAt={item?.createdAt}></Card>)
-              ) : (
-                <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
-              )}
-            </CardBox>
-            <CustomPagination total={15} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
-          </>
-        )}
+        <>
+          <CardBox>
+            {searchData.length > 0 ? (
+              searchData?.map((item, index) => <Card key={index} title={item?.title} question={item?.question} answer={item?.answer} tags={item?.tags} createdAt={item?.createdAt}></Card>)
+            ) : (
+              <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
+            )}
+          </CardBox>
+          <CustomPagination total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
+        </>
       </CustomContent>
     </>
   );
@@ -97,6 +96,8 @@ const StTag = styled(Tag)`
   line-height: 30px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+
+  font-family: "MaplestoryOTFLight";
 `;
 
 const NoSelectedTagMessage = styled.div`
