@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getDailyCompletionCounts } from "../redux/modules/searchSlice";
+import { __getDailyCompletionCounts, __getFee, __getTokenCounts } from "../redux/modules/searchSlice";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { CustomBox, CustomContent } from "../components/common";
+import { CustomBox, CustomContent, CustomDrawer } from "../components/common";
 
 import { IMAGES, PATH } from "../constants/index";
+
+import Chart from "chart.js/auto";
+import { Bar, Line } from "react-chartjs-2";
 
 const generateYearDates = (year) => {
   const dates = [];
@@ -32,7 +35,30 @@ const MyPage = () => {
   const grassData = useSelector((state) => state.search.dateData);
   const navigate = useNavigate();
 
-  const totalCount = grassData[0]?.yearly?.count;
+  const tokenData = useSelector((state) => state.search.tokenData);
+
+  const totalFee = useSelector((state) => state.search.totalFee);
+  const feeData = totalFee?.dailyCounts;
+  const labels = feeData?.map((item) => item.date);
+  const data = feeData?.map((item) => item.totalFee);
+
+  const totalCompletionCount = grassData[0]?.yearly?.count;
+
+  const [open, setOpen] = useState(false);
+  const [size, setSize] = useState();
+
+  const [selectedContent, setSelectedContent] = useState("");
+
+  const showDrawerHandler = (contentType) => {
+    setSize("large");
+    setOpen(true);
+    setSelectedContent(contentType);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+    // setSelectedContent("");
+  };
 
   const fetchCompletionData = useCallback(async () => {
     const data = await dispatch(__getDailyCompletionCounts(currentYear));
@@ -49,6 +75,18 @@ const MyPage = () => {
   useEffect(() => {
     fetchCompletionData();
   }, [fetchCompletionData]);
+
+  useEffect(() => {
+    dispatch(
+      __getTokenCounts({
+        groupByEachModel: false,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    dispatch(__getFee());
+  }, []);
 
   const getCellColor = (count) => {
     if (count > 14) {
@@ -98,13 +136,62 @@ const MyPage = () => {
     return cells.map((week, index) => <Week key={index}>{week}</Week>);
   };
 
+  let date = new Date();
+  let month = date.getMonth() + 1;
+
+  let fee = Math.round(totalFee?.monthlyCounts?.totalFee * 1000) / 1000;
+
+  const graphData = {
+    labels: tokenData?.dailyCounts?.map((item) => item.date),
+    datasets: [
+      {
+        label: "tokenData",
+        data: tokenData?.dailyCounts?.map((item) => item.count),
+        backgroundColor: "rgba(243, 243, 11, 0.6)",
+      },
+    ],
+  };
+
+  const lineChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Total Fee",
+        data: data,
+        fill: true, // true로 설정 => Area Chart
+        backgroundColor: "rgba(171, 75, 192, 0.2)",
+        borderColor: "#9b4bc0",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const contents = {
+    token: (
+      <>
+        <div style={{ marginBottom: "50px" }}>
+          <Bar data={graphData} />
+        </div>
+        <div style={{ height: "300px" }}>
+          <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
+        </div>
+      </>
+    ),
+    fee: (
+      <div>
+        <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
+      </div>
+    ),
+  };
+
   return (
     <>
       <CustomContent>
+        <StTitle style={{ marginTop: "30px" }}>사용량 잔디 시각화</StTitle>
         <StBox>
           <YearSelector>
             <p>
-              {totalCount} contributions in {currentYear}
+              {totalCompletionCount} contributions in {currentYear}
             </p>
           </YearSelector>
           <StGrass>
@@ -112,12 +199,13 @@ const MyPage = () => {
             <StCells>{renderCompletionCells()}</StCells>
           </StGrass>
         </StBox>
+        <StTitle>Gpt모델 사용 정보</StTitle>
         <StCardBox>
-          <CustomBox title="사용 토근수" body="126,560" width="300px" img={IMAGES.token} />
-          <CustomBox title="예상 사용 요금" body="0.6$" width="300px" img={IMAGES.bill} />
-          <CustomBox title="누적 질문 수" body="8,560" width="300px" img={IMAGES.question} />
-          <CustomBox title="Chat GPT" body="" width="300px" img={IMAGES.gpt} imgWd="240px" height="120px" href="https://chat.openai.com/chat" />
+          <CustomBox title={`${month}월 사용 토근수`} body={tokenData.monthlyCounts?.count} width="230px" img={IMAGES.token} extra={<button onClick={() => showDrawerHandler("token")}>more</button>} />
+          <CustomBox title={`${month}월 예상 요금`} body={`${fee} $`} width="230px" img={IMAGES.bill} extra={<button onClick={() => showDrawerHandler("fee")}>more</button>} />
+          <CustomBox title={`${month}월 누적 질문 수`} body={`${totalCompletionCount} 개`} width="230px" img={IMAGES.question} />
         </StCardBox>
+        <CustomDrawer title="월 예상 사용 요금,토큰 수 그래프" size={size} onClose={onClose} open={open} contents={contents[selectedContent]} />
       </CustomContent>
     </>
   );
@@ -158,7 +246,15 @@ const StDays = styled.div`
 
 const StCells = styled.div`
   display: flex;
-  /* overflow-x: hidden; */
+
+  overflow-x: hidden;
+`;
+
+const StTitle = styled.div`
+  font-size: 2.3rem;
+  margin: 30px;
+
+  font-family: "MaplestoryOTFLight";
 `;
 
 const StCardBox = styled.div`
@@ -167,9 +263,9 @@ const StCardBox = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
-  max-width: 99%;
+  /* max-width: 99%; */
 
-  margin: 40px 40px 40px 40px;
+  margin: 30px;
   padding: 30px;
 
   background: #ffffff;
