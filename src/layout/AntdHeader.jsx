@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { CustomUser } from "../components/common";
+import { CustomButton, CustomUser } from "../components/common";
 
 import { PATH } from "../constants";
 
 import { Modal, Form, InputNumber, Input, Button, Layout } from "antd";
-import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
+import { SearchOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons";
 const { Header } = Layout;
 
 export const AntdHeader = () => {
@@ -56,13 +56,16 @@ export const AntdHeader = () => {
                 <SearchOutlined />
               </Link>
             }
-            // 헤더에 검색 부분 페이지 링크 연결
             style={{ background: "transparent", boxShadow: "none" }}
           />
+
           <Link to={PATH.mypage}>
             <CustomUser />
           </Link>
           <div>{name}</div>
+          <Link to={PATH.login}>
+            <Button type="primary" size="middle" icon={<LogoutOutlined />} style={{ background: "transparent", boxShadow: "none" }} />
+          </Link>
         </StBox>
       </StHeader>
     </>
@@ -77,6 +80,8 @@ const StHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
   padding: 0 20px 0 20px;
+
+  font-family: "MaplestoryOTFLight";
   /* margin-bottom: 10px; */
 `;
 

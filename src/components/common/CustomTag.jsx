@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 
 import { Input, Space, Tag, Tooltip, theme } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -74,60 +75,64 @@ export const CustomTag = ({ tags, setTags, getTags }) => {
   };
 
   return (
-    <Space size={[0, 8]} wrap>
+    <StContainer>
       <Space size={[0, 8]} wrap>
-        {tags?.map((tag, index) => {
-          if (editInputIndex === index) {
-            return (
-              <Input
-                ref={editInputRef}
+        <Space size={[0, 8]} wrap>
+          {tags?.map((tag, index) => {
+            if (editInputIndex === index) {
+              return (
+                <Input
+                  ref={editInputRef}
+                  key={tag}
+                  size="small"
+                  style={tagInputStyle}
+                  value={editInputValue}
+                  onChange={handleEditInputChange}
+                  onBlur={handleEditInputConfirm}
+                  onPressEnter={handleEditInputConfirm}
+                />
+              );
+            }
+            const isLongTag = tag.length > 20;
+            const tagElem = (
+              <Tag
                 key={tag}
-                size="small"
-                style={tagInputStyle}
-                value={editInputValue}
-                onChange={handleEditInputChange}
-                onBlur={handleEditInputConfirm}
-                onPressEnter={handleEditInputConfirm}
-              />
-            );
-          }
-          const isLongTag = tag.length > 20;
-          const tagElem = (
-            <Tag
-              key={tag}
-              closable
-              style={{
-                userSelect: "none",
-              }}
-              onClose={() => handleClose(tag)}
-            >
-              <span
-                onDoubleClick={(e) => {
-                  setEditInputIndex(index);
-                  setEditInputValue(tag);
-                  e.preventDefault();
+                closable
+                style={{
+                  userSelect: "none",
                 }}
+                onClose={() => handleClose(tag)}
               >
-                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-              </span>
-            </Tag>
-          );
-          return isLongTag ? (
-            <Tooltip title={tag} key={tag}>
-              {tagElem}
-            </Tooltip>
-          ) : (
-            tagElem
-          );
-        })}
+                <span
+                  onDoubleClick={(e) => {
+                    setEditInputIndex(index);
+                    setEditInputValue(tag);
+                    e.preventDefault();
+                  }}
+                >
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </span>
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          })}
+        </Space>
+        {inputVisible ? (
+          <Input ref={inputRef} type="text" size="small" style={tagInputStyle} value={inputValue} onChange={handleInputChange} onBlur={handleInputConfirm} onPressEnter={handleInputConfirm} />
+        ) : (
+          <Tag style={tagPlusStyle} onClick={showInput}>
+            <PlusOutlined /> 태그 추가
+          </Tag>
+        )}
       </Space>
-      {inputVisible ? (
-        <Input ref={inputRef} type="text" size="small" style={tagInputStyle} value={inputValue} onChange={handleInputChange} onBlur={handleInputConfirm} onPressEnter={handleInputConfirm} />
-      ) : (
-        <Tag style={tagPlusStyle} onClick={showInput}>
-          <PlusOutlined /> 태그 추가
-        </Tag>
-      )}
-    </Space>
+    </StContainer>
   );
 };
+
+const StContainer = styled.div``;

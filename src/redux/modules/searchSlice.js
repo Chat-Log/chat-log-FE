@@ -5,6 +5,9 @@ const initialState = {
   data: [],
   dateData: [],
   tagData: [],
+  tokenData: {},
+  totalCount: "",
+  totalFee: "",
 
   isLoading: false,
   error: null,
@@ -12,7 +15,29 @@ const initialState = {
 
 export const __getSearch = createAsyncThunk("search/get", async (payload, thunkAPI) => {
   try {
+    console.log(payload);
     const { data } = await api.getSearchApi(payload);
+    console.log(data);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue();
+  }
+});
+
+export const __getTokenCounts = createAsyncThunk("tokens/get", async (payload, thunkAPI) => {
+  try {
+    const { data } = await api.getTokenCountsApi(payload);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue();
+  }
+});
+
+export const __getFee = createAsyncThunk("fee/get", async (payload, thunkAPI) => {
+  try {
+    const { data } = await api.getFeeApi(payload);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -23,6 +48,7 @@ export const __getSearch = createAsyncThunk("search/get", async (payload, thunkA
 export const __getDailyCompletionCounts = createAsyncThunk("completionCounts/get", async (payload, thunkAPI) => {
   try {
     const { data } = await api.getDailyCompletionCountsApi(payload);
+    console.log(data.data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -51,9 +77,32 @@ export const searchSlice = createSlice({
       })
       .addCase(__getSearch.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.data = [...action.payload];
+        state.data = [...action.payload.data];
+        state.totalCount = action.payload.totalCount;
       })
       .addCase(__getSearch.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+
+      .addCase(__getTokenCounts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getTokenCounts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.tokenData = action.payload;
+      })
+      .addCase(__getTokenCounts.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+
+      .addCase(__getFee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getFee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.totalFee = action.payload;
+      })
+      .addCase(__getFee.rejected, (state, action) => {
         state.isLoading = false;
       })
 

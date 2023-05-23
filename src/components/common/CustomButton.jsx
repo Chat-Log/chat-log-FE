@@ -15,4 +15,6 @@ const StButton = styled(Button)`
 
   color: ${({ color }) => color};
   background-color: ${({ bgc }) => bgc};
+
+  font-family: "MaplestoryOTFLight";
 `;

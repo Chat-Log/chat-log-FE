@@ -16,3 +16,5 @@ export { CustomTabs } from "./CustomTabs";
 export { CustomUser } from "./CustomUser";
 export { CustomButton } from "./CustomButton";
 export { CustomTag } from "./CustomTag";
+
+export { CustomDrawer } from "./CustomDrawer";

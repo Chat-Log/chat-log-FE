@@ -25,6 +25,8 @@ export const api = {
 
   // 마이페이지 잔디
   getDailyCompletionCountsApi: (year) => baseURL.get(`completions/counts/${year}`),
+  getTokenCountsApi: (params) => baseURL.get(`completions/token/counts`, { params: params }),
+  getFeeApi: (params) => baseURL.get(`completions/fee`, { params: params }),
 
   // 태그 페이지
   getTagApi: (tag) => baseURL.get(`topics/tags`),

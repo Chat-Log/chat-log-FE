@@ -25,7 +25,7 @@ const AntdSider = () => {
   const param = useParams();
   const topicId = param.topicId;
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const titleData = useSelector((state) => state.main?.titleData);
   const titles = titleData?.map((item) => getItem(item?.title, item?.id));
