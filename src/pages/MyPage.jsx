@@ -57,7 +57,6 @@ const MyPage = () => {
 
   const onClose = () => {
     setOpen(false);
-    // setSelectedContent("");
   };
 
   const fetchCompletionData = useCallback(async () => {
@@ -145,7 +144,7 @@ const MyPage = () => {
     labels: tokenData?.dailyCounts?.map((item) => item.date),
     datasets: [
       {
-        label: "tokenData",
+        label: `${month}월 사용 토큰수`,
         data: tokenData?.dailyCounts?.map((item) => item.count),
         backgroundColor: "rgba(243, 243, 11, 0.6)",
       },
@@ -156,7 +155,7 @@ const MyPage = () => {
     labels: labels,
     datasets: [
       {
-        label: "Total Fee",
+        label: `${month}월 예상 요금`,
         data: data,
         fill: true, // true로 설정 => Area Chart
         backgroundColor: "rgba(171, 75, 192, 0.2)",
@@ -169,18 +168,19 @@ const MyPage = () => {
   const contents = {
     token: (
       <>
-        <div style={{ marginBottom: "50px" }}>
+        <StTitle style={{ textAlign: "center" }}>{`${month}월 사용 토큰수`}</StTitle>
+        <div style={{ marginTop: "70px" }}>
           <Bar data={graphData} />
-        </div>
-        <div style={{ height: "300px" }}>
-          <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
         </div>
       </>
     ),
     fee: (
-      <div>
-        <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
-      </div>
+      <>
+        <StTitle style={{ textAlign: "center" }}>{`${month}월 예상 요금`}</StTitle>
+        <div style={{ marginTop: "70px" }}>
+          <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
+        </div>
+      </>
     ),
   };
 
@@ -201,7 +201,7 @@ const MyPage = () => {
         </StBox>
         <StTitle>Gpt모델 사용 정보</StTitle>
         <StCardBox>
-          <CustomBox title={`${month}월 사용 토근수`} body={tokenData.monthlyCounts?.count} width="230px" img={IMAGES.token} extra={<button onClick={() => showDrawerHandler("token")}>more</button>} />
+          <CustomBox title={`${month}월 사용 토큰수`} body={tokenData.monthlyCounts?.count} width="230px" img={IMAGES.token} extra={<button onClick={() => showDrawerHandler("token")}>more</button>} />
           <CustomBox title={`${month}월 예상 요금`} body={`${fee} $`} width="230px" img={IMAGES.bill} extra={<button onClick={() => showDrawerHandler("fee")}>more</button>} />
           <CustomBox title={`${month}월 누적 질문 수`} body={`${totalCompletionCount} 개`} width="230px" img={IMAGES.question} />
         </StCardBox>
@@ -214,6 +214,8 @@ const MyPage = () => {
 export default MyPage;
 
 const StBox = styled.div`
+  font-family: "MaplestoryOTFLight";
+
   margin: 30px;
   padding: 30px;
 
@@ -231,6 +233,8 @@ const StBox = styled.div`
   @media (max-width: 1300px) {
     padding: 15px;
   }
+
+  overflow-x: auto;
 `;
 
 const StGrass = styled.div`
@@ -247,7 +251,7 @@ const StDays = styled.div`
 const StCells = styled.div`
   display: flex;
 
-  overflow-x: hidden;
+  /* overflow-x: auto; */
 `;
 
 const StTitle = styled.div`
@@ -311,7 +315,7 @@ const CompletionCell = React.memo(styled.div.attrs((props) => ({
   margin-bottom: 2px;
 
   @media (max-width: 1300px) {
-    width: 15px; // 셀의 크기를 줄입니다.
+    width: 15px;
     height: 15px;
   }
 
@@ -332,26 +336,6 @@ const CompletionCell = React.memo(styled.div.attrs((props) => ({
 `);
 
 const YearSelector = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-
-  width: 700px;
-
-  button {
-    padding: 5px 10px;
-
-    background-color: #f0f0f0;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-
-  span {
-    margin: 0 10px;
-
-    font-size: 1.3rem;
-  }
   p {
     margin-bottom: 50px;
 
