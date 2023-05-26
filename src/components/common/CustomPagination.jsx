@@ -13,4 +13,5 @@ export const CustomPagination = ({ total, itemsPerPage, currentPage, changePageH
 const StContainer = styled.div`
   text-align: center;
   margin-top: 60px;
+  margin-bottom: 30px;
 `;
