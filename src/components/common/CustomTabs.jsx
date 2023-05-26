@@ -11,4 +11,5 @@ export const CustomTabs = ({ width, items, onChange }) => {
 
 const StTab = styled(Tabs)`
   width: ${({ width }) => width};
+  font-family: "MaplestoryOTFLight";
 `;
