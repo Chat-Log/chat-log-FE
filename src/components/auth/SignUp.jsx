@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { CustomButton, CustomInput, CustomAlert } from "../common";
 
 import { api } from "../../core/api";
-import { ICON, PATH } from "../../constants";
+import { ICON, PATH, IMAGES } from "../../constants";
 import { isValidEmail, isValidPassword, isValidPhoneNumber } from "../../func/func";
 
 const SignUp = () => {
@@ -82,7 +82,8 @@ const SignUp = () => {
   return (
     <StContainer>
       <StBox>
-        <StTitle>Chat Log</StTitle>
+        {/* <StTitle>Chat Log</StTitle> */}
+        <StImg src={IMAGES.chatlog1} />
         <StForm>
           <StDiv>
             <Link to={PATH.login}>
@@ -109,6 +110,13 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+const StImg = styled.img`
+  /* object-fit: cover; */
+  /* border: none; */
+  width: 380px;
+  height: 100px;
+`;
 
 const StContainer = styled.div`
   display: flex;
