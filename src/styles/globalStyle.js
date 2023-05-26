@@ -34,6 +34,10 @@ const GlobalStyles = createGlobalStyle`
     font-display: swap;
     }
 
+    body{
+    font-family: 'MaplestoryOTFLight';
+  }
+
     a{
         text-decoration: none;
         color: inherit;
