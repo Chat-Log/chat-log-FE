@@ -6,4 +6,6 @@ export const IMAGES = {
   gpt: require("../assets/gpt.png"),
   alborz: require("../assets/Alborz.png"),
   me: require("../assets/me.png"),
+  chatlog: require("../assets/chatlog.png"),
+  chatlog1: require("../assets/chatlog1.png"),
 };
