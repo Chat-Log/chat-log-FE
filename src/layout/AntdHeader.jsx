@@ -30,10 +30,17 @@ export const AntdHeader = () => {
     setIsModalVisible(false);
   };
 
+  const logout = () => {
+    // 로컬 스토리지에서 토큰과 사용자 정보를 제거
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("id");
+    localStorage.removeItem("name");
+  };
+
   return (
     <>
       <StHeader>
-        <Link to={PATH.main}>
+        <Link to={PATH.home}>
           <StTitle>CHAT GPT</StTitle>
         </Link>
         <StBox>
@@ -64,7 +71,7 @@ export const AntdHeader = () => {
           </Link>
           <div>{name}</div>
           <Link to={PATH.login}>
-            <Button type="primary" size="middle" icon={<LogoutOutlined />} style={{ background: "transparent", boxShadow: "none" }} />
+            <Button type="primary" size="middle" icon={<LogoutOutlined />} onClick={logout} style={{ background: "transparent", boxShadow: "none" }} />
           </Link>
         </StBox>
       </StHeader>
@@ -82,7 +89,10 @@ const StHeader = styled(Header)`
   padding: 0 20px 0 20px;
 
   font-family: "MaplestoryOTFLight";
-  /* margin-bottom: 10px; */
+
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 `;
 
 const StTitle = styled.div`
