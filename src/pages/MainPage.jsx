@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { __patchGptKey, __postCompletion, __getTopic, __getModel, __patchTopicTitle, __getTopics } from "../redux/modules/mainSlice";
+import { __patchGptKey, __postCompletion, __getTopic, __getModel, __patchTopicTitle, __getTopics, updateTopic, clearTopicData } from "../redux/modules/mainSlice";
 import { useParams } from "react-router-dom";
 
 import { ICON } from "../constants";
 
 import { Question, Answer } from "../components/completion";
 
-import { CustomButton, CustomSelect, CustomTag, CustomSearch, CustomSubHeader, CustomContent, CustomModal, CustomInput } from "../components/common";
+import { CustomButton, CustomSelect, CustomTag, CustomSearch, CustomSubHeader, CustomContent, CustomModal, CustomInput, CustomAlert } from "../components/common";
+
+import { Spin } from "antd";
 
 const MainPage = () => {
   // react-router-dom
@@ -24,24 +26,62 @@ const MainPage = () => {
   const modelData = useSelector((state) => state.main.modelData);
 
   // state
-  const [topicTitle, setTopicTitle] = useState(topicData?.title);
+  const [topicTitle, setTopicTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [selectedModel, setSelectedModel] = useState("gpt3.5_turbo");
   // const [createdAt, setCreatedAt] = useState(null);
   const [question, setQuestion] = useState("");
   const [disabled, SetDisabled] = useState(true);
 
+  const [completion, setCompletion] = useState([]);
+
+  const [controller, setController] = useState(null);
+  const [fetchState, setFetchState] = useState(true);
+  const [showStopButton, setShowStopButton] = useState(false);
+  const [tid, setTid] = useState();
+
+  // scroll 감지
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [completion, topicData]);
+
+  // redux 상태에서 로컬 상태로 topicTitle을 복사
+  useEffect(() => {
+    if (topicData) {
+      setTopicTitle(topicData.title);
+    } else {
+      setTopicTitle("");
+    }
+  }, [topicData, topicId]);
+
   // GET/models
   useEffect(() => {
     dispatch(__getModel());
   }, []);
 
+  useEffect(() => {
+    controller?.abort();
+  }, [topicId]);
+
+  const [showSpinner, setShowSpinner] = useState(false);
+
   // GET/TopicId
   useEffect(() => {
-    dispatch(__getTopic(topicId));
+    if (topicId !== undefined) {
+      setShowSpinner(true);
+      dispatch(__getTopic(topicId)).then(() => {
+        setTimeout(() => {
+          setShowSpinner(false);
+        }, 100);
+      });
+    } else {
+      dispatch(clearTopicData()); // Clear the topicData if topicId is undefined
+    }
     setQuestion("");
     setCompletion([]);
-  }, [topicId, topicTitle]);
+  }, [topicId]);
 
   // api key 관리
   const [apiKey, setApiKey] = useState("");
@@ -63,10 +103,12 @@ const MainPage = () => {
       dispatch(__patchGptKey({ userId: id, gptKey: apiKey }));
     }
     setIsModalOpen(false);
+    setApiKey("");
   };
   // modal 취소 버튼
   const cancelHandler = () => {
     setIsModalOpen(false);
+    setApiKey("");
   };
 
   // 토픽 제목 변경
@@ -104,11 +146,20 @@ const MainPage = () => {
     setQuestion(e.target.value);
   };
 
-  const [completion, setCompletion] = useState([]);
+  // 질문 응답 중지
+  const abortFetch = () => {
+    if (fetchState) {
+      controller?.abort();
+      console.log("중지");
+    }
+    setFetchState(false);
+    setShowStopButton(false);
+  };
 
   // 질문 버튼
   const submitQuestionHandler = () => {
     if (question) {
+      setShowStopButton(true);
       // topicID에 따른 request body
       let body = {
         modelName: selectedModel,
@@ -120,8 +171,15 @@ const MainPage = () => {
       if (topicId) {
         body.topicId = topicId;
       }
+      if (tid) {
+        body.topicId = tid;
+      }
+
+      let newController = new AbortController();
+      setController(newController);
 
       fetch("http://localhost:8080/topics/completion", {
+        signal: newController.signal,
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
@@ -130,7 +188,14 @@ const MainPage = () => {
         body: JSON.stringify(body),
       })
         .then((response) => {
-          // setCreatedAt(new Date().toISOString());
+          if (response.ok && !body.topicId) {
+            console.log("업데이트");
+            dispatch(updateTopic({ id: tid, title: question.slice(0, 8) }));
+          } else if (response.status === 400) {
+            CustomAlert({ errMsg: "API 키를 확안해주세요.", icon: "error" });
+          } else if (response.status === 500) {
+            CustomAlert({ errMsg: "서버오류 입니다. 다시한번 질문해주세요!", icon: "warning" });
+          }
 
           const reader = response.body.getReader();
           let buffer = "";
@@ -158,27 +223,41 @@ const MainPage = () => {
                 ]);
               }, i * 1);
             }
+
+            let match = buffer.match(/topicId:([^\n]*)\nendFlag/);
+            let id = match ? match[1] : "";
+            setTid(id);
+
             reader.read().then(processText);
           });
+          setQuestion("");
         })
         .catch((error) => {
           console.error("Stream error:", error);
         });
+    } else {
+      CustomAlert({ title: "질문을 입력해주세요!", icon: "warning" });
     }
-    setQuestion("");
   };
+
+  // if (showSpinner) {
+  //   return (
+  //     <SpinnerContainer>
+  //       <Spin size="large" />
+  //     </SpinnerContainer>
+  //   );
+  // }
 
   return (
     <>
-      <CustomSubHeader jc="space-between">
-        <StP>질문하기</StP>
-        <CustomButton onClick={showModal} name="key 등록" />
-        <CustomModal isModalOpen={isModalOpen} handleOk={okHandler} handleCancel={cancelHandler} onChangeHandler={changeApiKeyHandler} value={apiKey} />
-      </CustomSubHeader>
-
-      <CustomContent>
+      <CustomContent of="hidden">
+        <CustomSubHeader jc="space-between">
+          <StP>질문하기</StP>
+          <CustomButton onClick={showModal} name="key 등록" />
+          <CustomModal isModalOpen={isModalOpen} handleOk={okHandler} handleCancel={cancelHandler} onChangeHandler={changeApiKeyHandler} value={apiKey} />
+        </CustomSubHeader>
         <StTitleBox>
-          <CustomInput disabled={topicId ? disabled : false} value={topicTitle ?? topicData?.title} onChange={changeTitleHandler} />
+          <CustomInput disabled={topicId ? disabled : false} value={topicTitle} onChange={changeTitleHandler} />
           {topicId && <CustomButton name={disabled ? "수정" : "완료"} bgc="#4ea4f4" color="white" onClick={submitTitleHandler} />}
           <CustomSelect options={modelOptions} defaultValue={selectedModel} onChange={changeModelHandler} placement="bottomLeft" />
         </StTitleBox>
@@ -188,6 +267,11 @@ const MainPage = () => {
         </StTagBox>
 
         <StChatBox>
+          {showSpinner && (
+            <SpinnerContainer>
+              <Spin size="large" />
+            </SpinnerContainer>
+          )}
           {topicId
             ? topicData?.completions?.map((data, index) => (
                 <div key={index}>
@@ -202,9 +286,11 @@ const MainPage = () => {
               <Answer answer={data?.answer} createdAt={data?.createdAt} model={data?.modelName} />
             </div>
           ))}
+          <div ref={chatEndRef} />
         </StChatBox>
 
         <StQBox>
+          {showStopButton && <CustomButton onClick={abortFetch} name="중지" />}
           <CustomSearch ph="내용을 입력하세요" eb={ICON.send} value={question} size="large" mw="1000px" onSearch={submitQuestionHandler} onChange={inputChangeHandler} />
         </StQBox>
       </CustomContent>
@@ -228,12 +314,14 @@ const StTitleBox = styled.div`
   justify-content: space-between;
   gap: 10px;
   padding: 20px;
+
+  font-family: "MaplestoryOTFLight";
 `;
 const StChatBox = styled.div`
-  height: 75%;
+  position: relative;
+  min-height: 62vh;
 
   padding: 20px;
-  overflow: auto;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 `;
@@ -253,4 +341,16 @@ const StTagBox = styled.div`
   align-items: center;
   padding: 10px 20px 20px 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+`;
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(239, 233, 233, 0.3);
 `;

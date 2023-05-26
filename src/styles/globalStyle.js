@@ -19,20 +19,11 @@ const GlobalStyles = createGlobalStyle`
     font-style: normal;
     font-display: swap;
     }
-    @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-    }
-    @font-face {
-    font-family: 'Pretendard-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-    }
+
+
+    body{
+    font-family: 'MaplestoryOTFLight';
+  }
 
     a{
         text-decoration: none;

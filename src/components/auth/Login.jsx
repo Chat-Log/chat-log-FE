@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { CustomButton, CustomAlert, CustomInput } from "../common/";
 
-import { ICON, PATH } from "../../constants";
+import { ICON, PATH, IMAGES } from "../../constants";
 import { api } from "../../core/api";
 
 const Login = () => {
@@ -38,12 +38,12 @@ const Login = () => {
         password: pwd,
       });
       if (res.status === 201) {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         localStorage.setItem("accessToken", "Bearer " + res.data.data.accessToken);
         localStorage.setItem("id", res.data.data.id);
         localStorage.setItem("name", res.data.data.name);
       }
-      navigate(PATH.main);
+      navigate(PATH.home);
     } catch (error) {
       if (error.response.data.statusCode === "4401") {
         CustomAlert({ errMsg: "존재하지 않는 회원입니다.", icon: "error" });
@@ -56,19 +56,24 @@ const Login = () => {
   return (
     <StContainer>
       <StBox>
-        <StTitle>Chat Log</StTitle>
+        {/* <StTitle>Chat Log</StTitle> */}
+        <StImg src={IMAGES.chatlog} />
         <StForm>
           <StDiv>
             <Link to={PATH.help}>
               <CustomButton name="ID/PWD 찾기" type="link" color="#1890FF" />
             </Link>
           </StDiv>
+          <StLabel>이메일</StLabel>
           <CustomInput ph="E-mail" prefix={ICON.user} onChange={onChangeHandler} value={email} id="email" />
+          <StLabel>비밀번호</StLabel>
           <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} value={pwd} id="pwd" type="password" />
-          <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
-          <Link to={PATH.signup}>
-            <CustomButton type="link" name="회원가입" color="#1890FF" />
-          </Link>
+          <StBtnBox>
+            <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
+            <Link to={PATH.signup}>
+              <CustomButton type="link" name="회원가입" color="#1890FF" />
+            </Link>
+          </StBtnBox>
         </StForm>
       </StBox>
     </StContainer>
@@ -76,6 +81,20 @@ const Login = () => {
 };
 
 export default Login;
+
+const StBtnBox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+`;
+
+const StImg = styled.img`
+  border: none;
+  width: 370px;
+  height: 240px;
+`;
 
 const StContainer = styled.div`
   display: flex;
@@ -108,11 +127,11 @@ const StTitle = styled.div`
 
 const StForm = styled.div`
   width: 360px;
-  height: 350px;
+  /* height: 350px; */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 30px;
+  /* align-items: center; */
+  gap: 15px;
 `;
 
 const StDiv = styled.div`
@@ -122,3 +141,5 @@ const StDiv = styled.div`
   border-bottom: 1px solid #d5d5d5;
   padding-bottom: 10px;
 `;
+
+const StLabel = styled.label``;

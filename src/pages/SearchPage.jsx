@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { __getSearch, __getTag } from "../redux/modules/searchSlice";
 import { __getModel } from "../redux/modules/mainSlice";
 import styled from "styled-components";
 
 import { Card, CardBox } from "../components/card";
+import { PATH } from "../constants/path";
 
 import { CustomCheckbox, CustomCollapse, CustomContent, CustomDatePicker, CustomMultipleSelect, CustomRadio, CustomSearch, CustomSubHeader, CustomPagination } from "../components/common";
 
 const SearchPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 페이지
   const [currentPage, setCurrentPage] = useState("1");
@@ -48,7 +51,8 @@ const SearchPage = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(__getSearch({ pagesize: itemsPerPage, pageindex: currentPage, searchtype: searchType, onlylastcompletions: onlyLastCompletion }));
+    setCurrentPage("1");
+    dispatch(__getSearch({ pagesize: itemsPerPage, pageindex: "1", searchtype: searchType, onlylastcompletions: onlyLastCompletion }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -117,8 +121,12 @@ const SearchPage = () => {
     );
   };
 
+  const cardClickHandler = (topicId) => {
+    navigate(PATH.main(topicId));
+  };
+
   return (
-    <>
+    <Stdiv>
       <CustomSubHeader>
         <CustomRadio value={searchType} onChange={changeRadioCheckedHandler} option={radioOptions} />
         <CustomSearch width="500px" onChange={changeQueryHandler} onSearch={searchHandler} />
@@ -145,18 +153,34 @@ const SearchPage = () => {
         </CustomCollapse>
         <CardBox>
           {searchData[0]?.createdAt !== "" ? (
-            searchData.map((data, index) => <Card key={index} title={data.topicTitle} question={data.question} answer={data.answer} tags={data.tagNames} createdAt={data.createdAt}></Card>)
+            searchData.map((data, index) => (
+              <Card
+                onClick={() => cardClickHandler(data.topicId)}
+                key={index}
+                title={data.topicTitle}
+                question={data.question}
+                answer={data.answer}
+                tags={data.tagNames}
+                createdAt={data.createdAt}
+              ></Card>
+            ))
           ) : (
             <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
           )}
         </CardBox>
         <CustomPagination total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
       </CustomContent>
-    </>
+    </Stdiv>
   );
 };
 
 export default SearchPage;
+
+const Stdiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
 
 const StLabel = styled.label`
   margin-left: 20px;

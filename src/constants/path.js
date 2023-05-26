@@ -1,5 +1,5 @@
 export const PATH = {
-  main: "/main",
+  home: "/main",
   mypage: "/mypage",
   tag: "/tags",
   search: "/search",
@@ -9,4 +9,5 @@ export const PATH = {
 
   //
   date: (date) => `/date/${date}`,
+  main: (topicId) => `/main/${topicId}`,
 };

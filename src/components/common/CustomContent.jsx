@@ -21,7 +21,7 @@ const StContent = styled(Content)`
   /* padding: 10px; */
 
   background: ${({ bg }) => bg};
-  height: 100vh;
+  /* height: 100vh; */
   /* max-height: 860px; */
   overflow: ${({ of }) => of};
 `;

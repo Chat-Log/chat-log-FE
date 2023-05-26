@@ -15,9 +15,7 @@ const initialState = {
 
 export const __getSearch = createAsyncThunk("search/get", async (payload, thunkAPI) => {
   try {
-    console.log(payload);
     const { data } = await api.getSearchApi(payload);
-    console.log(data);
     return thunkAPI.fulfillWithValue(data);
   } catch (error) {
     console.log(error);
@@ -48,7 +46,6 @@ export const __getFee = createAsyncThunk("fee/get", async (payload, thunkAPI) =>
 export const __getDailyCompletionCounts = createAsyncThunk("completionCounts/get", async (payload, thunkAPI) => {
   try {
     const { data } = await api.getDailyCompletionCountsApi(payload);
-    console.log(data.data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);

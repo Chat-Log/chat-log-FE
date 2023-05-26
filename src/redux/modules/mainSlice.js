@@ -33,6 +33,7 @@ export const __patchGptKey = createAsyncThunk("gptKey/patch", async (payload, th
 });
 
 export const __getTopic = createAsyncThunk("topic/get", async (payload, thunkAPI) => {
+  console.log("토픽정보 조회");
   try {
     const { data } = await api.getTopicApi(payload);
     return thunkAPI.fulfillWithValue(data.data.props);
@@ -52,9 +53,7 @@ export const __getModel = createAsyncThunk("model/get", async (_, thunkAPI) => {
 
 export const __patchTopicTitle = createAsyncThunk("title/patch", async (payload, thunkAPI) => {
   try {
-    console.log(payload);
     const { data } = await api.patchTopicTitleApi(payload.topicId, { title: payload.title });
-    console.log(data.data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -64,7 +63,15 @@ export const __patchTopicTitle = createAsyncThunk("title/patch", async (payload,
 export const mainSlice = createSlice({
   name: "main",
   initialState,
-  reducers: {},
+  reducers: {
+    updateTopic: (state, action) => {
+      console.log(action.payload);
+      state.titleData.unshift(action?.payload);
+    },
+    clearTopicData: (state) => {
+      state.topicData = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -73,9 +80,7 @@ export const mainSlice = createSlice({
       })
       .addCase(__getTopics.fulfilled, (state, action) => {
         state.isLoading = false;
-        // console.log(action.payload);
         state.titleData = action.payload;
-        // state.data = { ...action.payload };
       })
       .addCase(__getTopics.rejected, (state, action) => {
         state.isLoading = false;
@@ -87,8 +92,6 @@ export const mainSlice = createSlice({
       })
       .addCase(__patchGptKey.fulfilled, (state, action) => {
         state.isLoading = false;
-        // console.log(action);
-        // state.data = { ...action.payload };
       })
       .addCase(__patchGptKey.rejected, (state, action) => {
         state.isLoading = false;
@@ -124,7 +127,6 @@ export const mainSlice = createSlice({
       })
       .addCase(__patchTopicTitle.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload);
         state.topicTitle = action.payload.title;
       })
       .addCase(__patchTopicTitle.rejected, (state, action) => {
@@ -133,4 +135,5 @@ export const mainSlice = createSlice({
   },
 });
 
+export const { updateTopic, clearTopicData } = mainSlice.actions;
 export default mainSlice.reducer;

@@ -35,6 +35,7 @@ const StContainer = styled.div`
 
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  font-family: "MaplestoryOTFLight";
 `;
 
 const StProfile = styled.div`
@@ -67,12 +68,18 @@ const StNickname = styled.div`
   flex-direction: row;
   align-items: center;
 
+  color: #756966;
+  font-size: 23px;
+
   margin: 3px;
 
   p {
-    color: #2e2e2e;
-    opacity: 0.7;
+    position: relative; // 추가
+    top: 4px; // 추가. 원하는 값으로 조정
     margin-left: 10px;
+    font-family: "MaplestoryOTFLight";
+    font-size: 14px;
+    color: black;
   }
 `;
 

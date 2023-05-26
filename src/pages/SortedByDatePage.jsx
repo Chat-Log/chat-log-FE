@@ -35,7 +35,6 @@ const SortedByDatePage = () => {
 
   const grassData = useSelector((state) => state.search?.dateData);
   const totalCount = useSelector((state) => state.search?.totalCount);
-  console.log(totalCount);
 
   const totalCompletionCount = grassData[0]?.yearly?.count;
 
@@ -53,8 +52,6 @@ const SortedByDatePage = () => {
 
     setCompletionData(completionData);
   }, [currentYear]);
-
-  console.log(completionData);
 
   useEffect(() => {
     fetchCompletionData();
@@ -120,16 +117,30 @@ const SortedByDatePage = () => {
   const searchData = useSelector((state) => state.search.data);
 
   useEffect(() => {
-    dispatch(__getSearch({ date: date, pagesize: itemsPerPage, pageindex: currentPage }));
+    setCurrentPage("1");
+    dispatch(__getSearch({ date: date !== "" ? date : null, pagesize: itemsPerPage, pageindex: "1" }));
   }, [date]);
 
   const changePageHandler = (page) => {
     setCurrentPage(page);
+    dispatch(
+      __getSearch({
+        date: date !== "" ? date : null,
+        pagesize: itemsPerPage,
+        pageindex: page,
+      })
+    );
+  };
+
+  console.log(currentPage, itemsPerPage);
+
+  const cardClickHandler = (topicId) => {
+    navigate(PATH.main(topicId));
   };
 
   return (
     <>
-      <CustomContent>
+      <CustomContent of="auto">
         <StBox>
           <YearSelector>
             <p>
@@ -143,12 +154,22 @@ const SortedByDatePage = () => {
         </StBox>
         <CardBox>
           {searchData[0] ? (
-            searchData.map((data, index) => <Card createdAt={data.createdAt} key={index} title={data.topicTitle} question={data.question} answer={data.answer} tags={data.tagNames}></Card>)
+            searchData.map((data, index) => (
+              <Card
+                onClick={() => cardClickHandler(data.topicId)}
+                createdAt={data.createdAt}
+                key={index}
+                title={data.topicTitle}
+                question={data.question}
+                answer={data.answer}
+                tags={data.tagNames}
+              ></Card>
+            ))
           ) : (
-            <StNoSearchedData>데이터가 없습니다.</StNoSearchedData>
+            <StNoSearchedData>해당 날짜에 데이터가 없습니다.</StNoSearchedData>
           )}
         </CardBox>
-        <CustomPagination total={100} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler}></CustomPagination>
+        {searchData[0] ? <CustomPagination total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler}></CustomPagination> : null}
       </CustomContent>
     </>
   );
@@ -157,6 +178,7 @@ const SortedByDatePage = () => {
 export default SortedByDatePage;
 
 const StNoSearchedData = styled.div`
+  font-family: "MaplestoryOTFLight";
   font-size: 1.5rem;
   color: #888;
   text-align: center;
@@ -164,6 +186,8 @@ const StNoSearchedData = styled.div`
 `;
 
 const StBox = styled.div`
+  font-family: "MaplestoryOTFLight";
+
   margin: 30px;
   padding: 30px;
 
@@ -191,8 +215,6 @@ const StDays = styled.div`
   display: flex;
   flex-direction: column;
 
-  font-family: "MaplestoryOTFLight";
-
   margin-right: 5px;
 `;
 
@@ -203,14 +225,19 @@ const StCells = styled.div`
 `;
 
 const DayLabel = styled.div`
+  padding-bottom: 5px;
+
   font-size: 1.3rem;
 
-  padding-bottom: 5px;
+  @media (max-width: 1300px) {
+    font-size: 0.78rem;
+  }
 `;
 
 const Week = React.memo(styled.div`
   display: flex;
   flex-direction: column;
+
   margin-right: 2px;
 `);
 
@@ -221,9 +248,15 @@ const CompletionCell = React.memo(styled.div.attrs((props) => ({
 }))`
   width: 24px;
   height: 24px;
+
   position: relative;
   cursor: pointer;
   margin-bottom: 2px;
+
+  @media (max-width: 1300px) {
+    width: 15px;
+    height: 15px;
+  }
 
   &:hover::before {
     content: "${(props) => (props.date && typeof props.count !== "undefined" ? `${props.date} - ${props.count} completions` : "")}";
@@ -249,9 +282,10 @@ const YearSelector = styled.div`
   width: 700px;
 
   button {
+    padding: 5px 10px;
+
     background-color: #f0f0f0;
     border: none;
-    padding: 5px 10px;
     font-size: 1.2rem;
     cursor: pointer;
   }
@@ -260,10 +294,10 @@ const YearSelector = styled.div`
     margin: 0 10px;
     font-size: 1.3rem;
   }
+
   p {
     margin-bottom: 20px;
     font-size: 1.3rem;
     color: #4a8aeb;
-    font-family: "MaplestoryOTFLight";
   }
 `;

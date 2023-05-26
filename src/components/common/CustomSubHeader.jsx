@@ -18,6 +18,7 @@ export const CustomSubHeader = ({ children, jc, height, margin }) => {
 
 const StHeader = styled(Header)`
   display: flex;
+
   align-items: center;
   justify-content: ${({ jc }) => jc};
 
