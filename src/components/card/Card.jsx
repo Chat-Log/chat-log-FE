@@ -6,9 +6,9 @@ import { MarkdownRender } from "../completion";
 import { IMAGES } from "../../constants";
 import { reformatDate } from "../../func/func";
 
-export const Card = ({ title, question, answer, tags, createdAt }) => {
+export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
   return (
-    <StContainer>
+    <StContainer onClick={onClick}>
       {title ? <StTitle>{title}</StTitle> : null}
       {question ? (
         <StDiv>
@@ -44,7 +44,6 @@ const StContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 16px #eae2fd;
   border-radius: 15px;
-
   /* box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); */
   /* border-radius: 8px; */
 
@@ -60,6 +59,8 @@ const StContainer = styled.div`
   &:hover {
     transform: scale(1.03);
   }
+
+  cursor: pointer;
 `;
 
 const StTitle = styled.div`
