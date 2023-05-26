@@ -99,7 +99,7 @@ const Recovery = () => {
           const resetPwdRes = await api.patchResetPwdApi({ oldPassword: oldPwd, newPassword: newPwd });
           console.log(resetPwdRes.data.data);
           CustomAlert({ errMsg: "변경된 비밀번호로 로그인 었습니다!" });
-          navigate(PATH.main);
+          navigate(PATH.home);
         }
       } catch (error) {
         if (error.response.data.statusCode === "4401") {
