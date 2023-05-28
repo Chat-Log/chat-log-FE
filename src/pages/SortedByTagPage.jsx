@@ -23,6 +23,8 @@ const SortedByTagPage = () => {
   const searchData = useSelector((state) => state.search.data);
   const totalCount = useSelector((state) => state.search?.totalCount);
 
+  console.log(searchData);
+
   useEffect(() => {
     dispatch(__getTag());
   }, []);
@@ -76,7 +78,7 @@ const SortedByTagPage = () => {
                   title={item?.title}
                   question={item?.question}
                   answer={item?.answer}
-                  tags={item?.tags}
+                  tags={item?.tagNames}
                   createdAt={item?.createdAt}
                   onClick={() => cardClickHandler(item?.topicId)}
                 ></Card>
