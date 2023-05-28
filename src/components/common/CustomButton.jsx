@@ -17,4 +17,9 @@ const StButton = styled(Button)`
   background-color: ${({ bgc }) => bgc};
 
   font-family: "MaplestoryOTFLight";
+
+  &:hover {
+    color: ${({ color }) => color} !important;
+    background-color: ${({ bgc }) => bgc} !important;
+  }
 `;

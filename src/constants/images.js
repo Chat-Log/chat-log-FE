@@ -1,3 +1,5 @@
+import { ReactComponent as Logo } from "../assets/logo9.svg";
+
 export const IMAGES = {
   token: require("../assets/token.png"),
   question: require("../assets/question.png"),
@@ -6,7 +8,8 @@ export const IMAGES = {
   alborz: require("../assets/Alborz.png"),
   me: require("../assets/me.png"),
   chatlog: require("../assets/chatlog.png"),
-  chatlog1: require("../assets/chatlog1.png"),
+
   chatlog2: require("../assets/logo1.png"),
-  chatlog3: require("../assets/logo3.png"),
+
+  logo: <Logo />,
 };

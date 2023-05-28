@@ -22,12 +22,10 @@ export const __getTopics = createAsyncThunk("topics/get", async (payload, thunkA
 
 export const __patchGptKey = createAsyncThunk("gptKey/patch", async (payload, thunkAPI) => {
   try {
-    console.log("페이로드입니다:", payload);
     const { data } = await api.patchGptKeyApi(payload);
     return thunkAPI.fulfillWithValue();
   } catch (error) {
     console.log(error);
-    // return thunkAPI.rejectWithValue(error.response.data.message);
   }
 });
 
@@ -36,7 +34,7 @@ export const __getTopic = createAsyncThunk("topic/get", async (payload, thunkAPI
     const { data } = await api.getTopicApi(payload);
     return thunkAPI.fulfillWithValue(data.data.props);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 });
 
@@ -63,7 +61,6 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     updateTopic: (state, action) => {
-      console.log(action.payload);
       state.titleData.unshift(action?.payload);
     },
     clearTopicData: (state) => {

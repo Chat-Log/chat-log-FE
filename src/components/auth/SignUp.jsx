@@ -82,12 +82,11 @@ const SignUp = () => {
   return (
     <StContainer>
       <StBox>
-        {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog3} />
+        {IMAGES.logo}
         <StForm>
           <StDiv>
             <Link to={PATH.login}>
-              <CustomButton name="로그인" type="link" color="#1890FF" />
+              <CustomButton name="로그인" type="link" color="#4ea4f4" />
             </Link>
           </StDiv>
           <StLabel>이메일</StLabel>
@@ -103,21 +102,13 @@ const SignUp = () => {
           <CustomInput ph="010-1111-2222" prefix={ICON.phone} onChange={changePhoneNumberHandler} />
           {phoneNumberError && phoneNumber !== "" && "올바른 휴대폰 번호 형식으로 작성해주세요."}
         </StForm>
-        <CustomButton type="primary" name="회원가입" width="250px" bgc="#8FC6FA" disabled={disabled} onClick={submitHandler} />
+        <CustomButton type="primary" name="회원가입" width="250px" bgc="#4ea4f4" color="white" disabled={disabled} onClick={submitHandler} />
       </StBox>
     </StContainer>
   );
 };
 
 export default SignUp;
-
-const StImg = styled.img`
-  /* object-fit: cover; */
-  /* border: none; */
-  width: 380px;
-  height: 100px;
-  margin-right: 12px;
-`;
 
 const StContainer = styled.div`
   display: flex;
@@ -140,17 +131,6 @@ const StDiv = styled.div`
   width: 360px;
   border-bottom: 1px solid #d5d5d5;
   padding-bottom: 10px;
-`;
-
-const StTitle = styled.div`
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 64px;
-  line-height: 38px;
-  letter-spacing: 0.005em;
-  color: rgba(0, 0, 0, 0.85);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const StForm = styled.div`

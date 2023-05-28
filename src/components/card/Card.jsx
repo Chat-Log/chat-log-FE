@@ -28,7 +28,7 @@ export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
       {tags ? (
         <StTags>
           {tags.map((tag, index) => (
-            <Tag key={index} color="blue">
+            <Tag key={index} color="blue" style={{ padding: "5px 9px 5px 9px" }}>
               {tag}
             </Tag>
           ))}
@@ -86,24 +86,15 @@ const StTitle = styled.div`
 `;
 
 const StQuestion = styled.div`
-  /* width: 100%; */
   height: 45px;
 
   font-size: 1.2rem;
   line-height: 130%;
-  /* or 18px */
 
   display: flex;
   align-items: center;
   margin-bottom: 10px;
   color: #756966;
-
-  /* Inside auto layout */
-
-  /* flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0; */
 `;
 
 const StIcon = styled.img`
@@ -111,7 +102,6 @@ const StIcon = styled.img`
   height: 38px;
 
   background-image: url(${(props) => props.url});
-  /* border-radius:  */
 
   background-repeat: no-repeat;
   background-size: 100%;
@@ -131,14 +121,10 @@ const StContents = styled.div`
   gap: 20px;
 
   width: 100%;
-  /* height: 128px; */
-  /* overflow: auto; */
 
   background: #eaf1f8;
   line-height: 150%;
   font-size: 1.2rem;
-
-  /* Inside auto layout */
 
   border-radius: 20px;
 

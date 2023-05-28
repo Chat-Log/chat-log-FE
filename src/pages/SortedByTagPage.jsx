@@ -45,6 +45,7 @@ const SortedByTagPage = () => {
     } else {
       setSelectedTags([...selectedTags, tag]);
     }
+    setCurrentPage("1");
   };
 
   const cardClickHandler = (topicId) => {

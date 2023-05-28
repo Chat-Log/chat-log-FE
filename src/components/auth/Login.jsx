@@ -56,12 +56,11 @@ const Login = () => {
   return (
     <StContainer>
       <StBox>
-        {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog3} />
+        {IMAGES.logo}
         <StForm>
           <StDiv>
             <Link to={PATH.help}>
-              <CustomButton name="ID/PWD 찾기" type="link" color="#1890FF" />
+              <CustomButton name="ID/PWD 찾기" type="link" color="#4ea4f4" />
             </Link>
           </StDiv>
           <StLabel>이메일</StLabel>
@@ -69,9 +68,9 @@ const Login = () => {
           <StLabel>비밀번호</StLabel>
           <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} onPressEnter={submitHandler} value={pwd} id="pwd" type="password" />
           <StBtnBox>
-            <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
+            <CustomButton type="primary" name="로그인" width="250px" bgc="#4ea4f4" color="white" onClick={submitHandler} disabled={disabled} />
             <Link to={PATH.signup}>
-              <CustomButton type="link" name="회원가입" color="#1890FF" />
+              <CustomButton type="link" name="회원가입" color="#4ea4f4" />
             </Link>
           </StBtnBox>
         </StForm>
@@ -90,13 +89,6 @@ const StBtnBox = styled.div`
   margin-top: 30px;
 `;
 
-const StImg = styled.img`
-  border: none;
-  width: 380px;
-  height: 100px;
-  margin-right: 12px;
-`;
-
 const StContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -113,25 +105,10 @@ const StBox = styled.div`
   gap: 40px;
 `;
 
-const StTitle = styled.div`
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 64px;
-  line-height: 38px;
-
-  letter-spacing: 0.005em;
-
-  color: rgba(0, 0, 0, 0.85);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
 const StForm = styled.div`
   width: 360px;
-  /* height: 350px; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   gap: 15px;
 `;
 

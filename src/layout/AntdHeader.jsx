@@ -41,11 +41,13 @@ export const AntdHeader = () => {
     <>
       <StHeader>
         <Link to={PATH.home}>
-          <StImg src={IMAGES.chatlog2} />
-          {/* <StTitle>CHAT GPT</StTitle> */}
+          <div style={{ display: "flex", justifyContent: "center", gap: "15px" }}>
+            <StImg src={IMAGES.chatlog2} />
+            {/* <StTitle>CHAT GPT</StTitle> */}
+          </div>
         </Link>
         <StBox>
-          <Button type="primary" size="middle" icon={<SettingOutlined />} onClick={showModal} style={{ background: "transparent", boxShadow: "none" }} />
+          {/* <Button type="primary" size="middle" icon={<SettingOutlined />} onClick={showModal} style={{ background: "transparent", boxShadow: "none" }} /> */}
           <Modal title="설정" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="확인" cancelText="닫기">
             <Form>
               <Form.Item label="닉네임" style={{ marginTop: "30px" }}>
@@ -64,7 +66,7 @@ export const AntdHeader = () => {
                 <SearchOutlined />
               </Link>
             }
-            style={{ background: "transparent", boxShadow: "none" }}
+            style={{ background: "transparent", boxShadow: "none", color: "black" }}
           />
 
           <Link to={PATH.mypage}>
@@ -72,7 +74,7 @@ export const AntdHeader = () => {
           </Link>
           <div>{name}</div>
           <Link to={PATH.login}>
-            <Button type="primary" size="middle" icon={<LogoutOutlined />} onClick={logout} style={{ background: "transparent", boxShadow: "none" }} />
+            <Button type="primary" size="middle" icon={<LogoutOutlined />} onClick={logout} style={{ background: "transparent", boxShadow: "none", color: "black" }} />
           </Link>
         </StBox>
       </StHeader>
@@ -84,7 +86,7 @@ export default AntdHeader;
 
 const StHeader = styled(Header)`
   height: 70px;
-  background-color: #cecff4;
+  background-color: #eaf1f8;
   display: flex;
   justify-content: space-between;
   padding: 0 20px 0 20px;
@@ -94,11 +96,6 @@ const StHeader = styled(Header)`
   position: fixed;
   z-index: 1;
   width: 100%;
-`;
-
-const StTitle = styled.div`
-  font-size: 2rem;
-  font-weight: bold;
 `;
 
 const StBox = styled.div`
