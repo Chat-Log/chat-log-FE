@@ -87,7 +87,7 @@ const SignUp = () => {
         <StForm>
           <StDiv>
             <Link to={PATH.login}>
-              <CustomButton name="로그인" type="link" color="#1890FF" />
+              <CustomButton name="로그인" type="link" color="#4ea4f4" />
             </Link>
           </StDiv>
           <StLabel>이메일</StLabel>
@@ -103,7 +103,7 @@ const SignUp = () => {
           <CustomInput ph="010-1111-2222" prefix={ICON.phone} onChange={changePhoneNumberHandler} />
           {phoneNumberError && phoneNumber !== "" && "올바른 휴대폰 번호 형식으로 작성해주세요."}
         </StForm>
-        <CustomButton type="primary" name="회원가입" width="250px" bgc="#8FC6FA" disabled={disabled} onClick={submitHandler} />
+        <CustomButton type="primary" name="회원가입" width="250px" bgc="#4ea4f4" color="white" disabled={disabled} onClick={submitHandler} />
       </StBox>
     </StContainer>
   );

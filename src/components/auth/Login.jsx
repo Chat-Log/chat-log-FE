@@ -61,7 +61,7 @@ const Login = () => {
         <StForm>
           <StDiv>
             <Link to={PATH.help}>
-              <CustomButton name="ID/PWD 찾기" type="link" color="#1890FF" />
+              <CustomButton name="ID/PWD 찾기" type="link" color="#4ea4f4" />
             </Link>
           </StDiv>
           <StLabel>이메일</StLabel>
@@ -69,9 +69,9 @@ const Login = () => {
           <StLabel>비밀번호</StLabel>
           <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} onPressEnter={submitHandler} value={pwd} id="pwd" type="password" />
           <StBtnBox>
-            <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
+            <CustomButton type="primary" name="로그인" width="250px" bgc="#4ea4f4" color="white" onClick={submitHandler} disabled={disabled} />
             <Link to={PATH.signup}>
-              <CustomButton type="link" name="회원가입" color="#1890FF" />
+              <CustomButton type="link" name="회원가입" color="#4ea4f4" />
             </Link>
           </StBtnBox>
         </StForm>

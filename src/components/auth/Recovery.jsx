@@ -72,7 +72,8 @@ const Recovery = () => {
         const res = await api.getEmailApi({
           phone: phoneNum,
         });
-        CustomAlert({ title: "등록된 이메일: " + res.data.data.email });
+        let result = res.data.data.emails.join(" ");
+        CustomAlert({ errMsg: "등록된 이메일: " + result });
       } catch (error) {
         if (error.response.data.statusCode === "4402") {
           CustomAlert({ errMsg: "가입되지 않는 전화번호입니다.", icon: "error" });
@@ -131,12 +132,12 @@ const Recovery = () => {
         <StImg src={IMAGES.chatlog3} />
         <StDiv>
           <Link to={PATH.login}>
-            <CustomButton name="로그인" type="link" color="#1890FF" />
+            <CustomButton name="로그인" type="link" color="#4ea4f4" />
           </Link>
         </StDiv>
         <StForm>
-          <CustomTabs width="360px" items={items} onChange={onChange} />
-          <CustomButton name="확인" type="primary" width="250px" onClick={submitHandler} />
+          <CustomTabs width="360px" items={items} onChange={onChange} color="#4ea4f4" />
+          <CustomButton name="확인" type="primary" width="250px" onClick={submitHandler} bgc="#4ea4f4" />
         </StForm>
       </StBox>
     </StContainer>
