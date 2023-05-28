@@ -18,5 +18,6 @@ const StSearch = styled(Search)`
   .ant-input-search-button {
     background-color: #4ea4f4;
     border-color: #4ea4f4;
+    color: #fff !important;
   }
 `;
