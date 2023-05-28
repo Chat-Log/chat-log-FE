@@ -9,8 +9,6 @@ import { reformatDate } from "../../func/func";
 import { Tag } from "antd";
 
 export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
-  console.log(tags);
-
   return (
     <StContainer onClick={onClick}>
       {title ? <StTitle>{title}</StTitle> : null}
