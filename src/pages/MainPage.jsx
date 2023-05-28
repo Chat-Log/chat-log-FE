@@ -160,11 +160,11 @@ const MainPage = () => {
   const submitQuestionHandler = () => {
     if (question) {
       setShowStopButton(true);
+
       // topicID에 따른 request body
       let body = {
         modelName: selectedModel,
         question: question,
-        tagNames: tags,
         topicTitle: topicTitle,
       };
 
@@ -201,7 +201,8 @@ const MainPage = () => {
           let buffer = "";
           reader.read().then(function processText({ done, value }) {
             if (done) {
-              console.log("Stream ended");
+              // console.log("Stream ended");
+              setFetchState(true);
               return;
             }
 
@@ -240,16 +241,7 @@ const MainPage = () => {
     }
   };
 
-  // if (showSpinner) {
-  //   return (
-  //     <SpinnerContainer>
-  //       <Spin size="large" />
-  //     </SpinnerContainer>
-  //   );
-  // }
   const tag = useMemo(() => topicData.tags?.map((data, index) => data?.props?.name), [topicData.tags]);
-
-  console.log(tag);
 
   return (
     <>
@@ -266,7 +258,7 @@ const MainPage = () => {
         </StTitleBox>
 
         <StTagBox>
-          <CustomTag tags={tags} setTags={setTags} getTags={tag} />
+          <CustomTag tags={tags} setTags={setTags} getTags={tag} topicId={topicId} />
         </StTagBox>
 
         <StChatBox>

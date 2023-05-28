@@ -16,7 +16,7 @@ const SearchPage = () => {
 
   // 페이지
   const [currentPage, setCurrentPage] = useState("1");
-  const [itemsPerPage, setItemsPerPage] = useState("3");
+  const [itemsPerPage, setItemsPerPage] = useState("5");
 
   const searchData = useSelector((state) => state.search.data);
   const tagData = useSelector((state) => state.search.tagData);
@@ -105,7 +105,6 @@ const SearchPage = () => {
 
   // 페이지 번호가 변경되었을 때의 핸들러
   const changePageHandler = (page) => {
-    console.log(page);
     setCurrentPage(page);
     dispatch(
       __getSearch({
@@ -152,7 +151,7 @@ const SearchPage = () => {
           </StAdvancedSearch>
         </CustomCollapse>
         <CardBox>
-          {searchData[0]?.createdAt !== "" ? (
+          {searchData[0]?.createdAt !== undefined ? (
             searchData.map((data, index) => (
               <Card
                 onClick={() => cardClickHandler(data.topicId)}
@@ -168,7 +167,9 @@ const SearchPage = () => {
             <StNoSearchedData>데이터가 없습니다</StNoSearchedData>
           )}
         </CardBox>
-        <CustomPagination total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
+        {searchData.length !== 0 ? (
+          <CustomPagination mt={searchData.length === 0 ? "700px" : "0px"} total={totalCount} itemsPerPage={itemsPerPage} currentPage={currentPage} changePageHandler={changePageHandler} />
+        ) : null}
       </CustomContent>
     </Stdiv>
   );

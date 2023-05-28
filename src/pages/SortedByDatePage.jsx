@@ -31,7 +31,7 @@ const SortedByDatePage = () => {
   const yearDates = useMemo(() => generateYearDates(currentYear), [currentYear]);
 
   const [currentPage, setCurrentPage] = useState("1");
-  const [itemsPerPage, setItemsPerPage] = useState("3");
+  const [itemsPerPage, setItemsPerPage] = useState("5");
 
   const grassData = useSelector((state) => state.search?.dateData);
   const totalCount = useSelector((state) => state.search?.totalCount);
@@ -132,8 +132,6 @@ const SortedByDatePage = () => {
     );
   };
 
-  console.log(currentPage, itemsPerPage);
-
   const cardClickHandler = (topicId) => {
     navigate(PATH.main(topicId));
   };
@@ -205,6 +203,7 @@ const StBox = styled.div`
   @media (max-width: 1300px) {
     padding: 15px;
   }
+  overflow-x: auto;
 `;
 
 const StGrass = styled.div`
@@ -220,8 +219,6 @@ const StDays = styled.div`
 
 const StCells = styled.div`
   display: flex;
-
-  overflow-x: hidden;
 `;
 
 const DayLabel = styled.div`

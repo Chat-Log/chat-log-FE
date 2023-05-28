@@ -24,7 +24,6 @@ export const __patchGptKey = createAsyncThunk("gptKey/patch", async (payload, th
   try {
     console.log("페이로드입니다:", payload);
     const { data } = await api.patchGptKeyApi(payload);
-    console.log(data);
     return thunkAPI.fulfillWithValue();
   } catch (error) {
     console.log(error);
@@ -33,7 +32,6 @@ export const __patchGptKey = createAsyncThunk("gptKey/patch", async (payload, th
 });
 
 export const __getTopic = createAsyncThunk("topic/get", async (payload, thunkAPI) => {
-  console.log("토픽정보 조회");
   try {
     const { data } = await api.getTopicApi(payload);
     return thunkAPI.fulfillWithValue(data.data.props);

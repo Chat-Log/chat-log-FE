@@ -202,7 +202,7 @@ const MyPage = () => {
         <StTitle>Gpt모델 사용 정보</StTitle>
         <StCardBox>
           <CustomBox title={`${month}월 사용 토큰수`} body={tokenData.monthlyCounts?.count} width="230px" img={IMAGES.token} extra={<button onClick={() => showDrawerHandler("token")}>more</button>} />
-          <CustomBox title={`${month}월 예상 요금`} body={`${fee} $`} width="230px" img={IMAGES.bill} extra={<button onClick={() => showDrawerHandler("fee")}>more</button>} />
+          <CustomBox title={`${month}월 예상 요금`} body={`${fee ? fee : 0} $`} width="230px" img={IMAGES.bill} extra={<button onClick={() => showDrawerHandler("fee")}>more</button>} />
           <CustomBox title={`${month}월 누적 질문 수`} body={`${totalCompletionCount} 개`} width="230px" img={IMAGES.question} />
         </StCardBox>
         <CustomDrawer title="월 예상 사용 요금,토큰 수 그래프" size={size} onClose={onClose} open={open} contents={contents[selectedContent]} />
@@ -250,8 +250,6 @@ const StDays = styled.div`
 
 const StCells = styled.div`
   display: flex;
-
-  /* overflow-x: auto; */
 `;
 
 const StTitle = styled.div`
@@ -298,8 +296,6 @@ const Week = React.memo(styled.div`
   flex-direction: column;
 
   margin-right: 2px;
-
-  /* overflow-x: hidden; */
 `);
 
 const CompletionCell = React.memo(styled.div.attrs((props) => ({

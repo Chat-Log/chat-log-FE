@@ -2,10 +2,10 @@ import { Pagination } from "antd";
 import React from "react";
 import styled from "styled-components";
 
-export const CustomPagination = ({ total, itemsPerPage, currentPage, changePageHandler }) => {
+export const CustomPagination = ({ total, itemsPerPage, currentPage, changePageHandler, mt }) => {
   return (
     <StContainer>
-      <Pagination defaultCurrent={1} current={currentPage} total={total} pageSize={itemsPerPage} onChange={changePageHandler} />
+      <Pagination style={{ marginTop: `${mt}` }} defaultCurrent={1} current={currentPage} total={total} pageSize={itemsPerPage} onChange={changePageHandler} />
     </StContainer>
   );
 };
