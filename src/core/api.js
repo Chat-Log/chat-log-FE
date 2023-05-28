@@ -30,4 +30,6 @@ export const api = {
 
   // 태그 페이지
   getTagApi: (tag) => baseURL.get(`topics/tags`),
+  addTopicTagApi: (topicId, tagName) => baseURL.patch(`topics/tags`, { topicId, tagName }),
+  deleteTopicTagApi: (topicId, tagName) => baseURL.patch(`topics/tags/delete`, { topicId, tagName }),
 };

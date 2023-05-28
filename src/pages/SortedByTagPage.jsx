@@ -16,14 +16,12 @@ const SortedByTagPage = () => {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState("1");
-  const [itemsPerPage, setItemsPerPage] = useState("3");
+  const [itemsPerPage, setItemsPerPage] = useState("5");
   const [selectedTags, setSelectedTags] = useState([]);
 
   const tagData = useSelector((state) => state.search.tagData);
   const searchData = useSelector((state) => state.search.data);
   const totalCount = useSelector((state) => state.search?.totalCount);
-
-  console.log(searchData);
 
   useEffect(() => {
     dispatch(__getTag());
@@ -60,7 +58,7 @@ const SortedByTagPage = () => {
           <StTagContainer>
             <StTagBox>
               {tagData.length === 0 ? (
-                <NoSelectedTagMessage style={{ margin: "auto" }}>등록된 태그가 없습니다.</NoSelectedTagMessage>
+                <NoSelectedTagMessage>등록된 태그가 없습니다.</NoSelectedTagMessage>
               ) : (
                 tagData.map((tag) => (
                   <StTag key={tag} color={selectedTags.includes(tag) ? "blue" : ""} onClick={() => handleTagClick(tag)}>
@@ -112,7 +110,6 @@ const StTagContainer = styled.div`
   transition: 0.3s;
 
   &:hover {
-    /* background: rgb(206, 207, 244); */
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
   }
 
@@ -120,13 +117,6 @@ const StTagContainer = styled.div`
     padding: 15px;
   }
 `;
-
-// const StTagContainer = styled.div`
-//   height: 200px;
-//   margin: 0px 0px 10px 0px;
-
-//   /* border: 1px solid black; */
-// `;
 
 const StTagBox = styled.div`
   display: flex;
@@ -157,7 +147,7 @@ const NoSelectedTagMessage = styled.div`
 
   width: 100%;
 
-  margin-top: 100px;
+  margin-top: 77px;
 
   color: #888;
 
@@ -172,4 +162,5 @@ const StNoSearchedData = styled.div`
   color: #888;
 
   font-size: 1.5rem;
+  font-family: "MaplestoryOTFLight";
 `;

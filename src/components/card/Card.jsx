@@ -46,18 +46,9 @@ const StContainer = styled.div`
 
   font-family: "MaplestoryOTFLight";
 
-  /* gap: 10px; */
-
-  /* width: 90%;
-  height: 299px; */
-
   background: #ffffff;
   box-shadow: 0px 4px 16px #eae2fd;
   border-radius: 15px;
-  /* box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); */
-  /* border-radius: 8px; */
-
-  /* Inside auto layout */
 
   flex: none;
   order: 0;

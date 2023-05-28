@@ -3,16 +3,15 @@ import styled from "styled-components";
 
 import { Input, Space, Tag, Tooltip, theme } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { api } from "../../core/api";
 
-export const CustomTag = ({ tags, setTags, getTags }) => {
+export const CustomTag = ({ tags, setTags, getTags, topicId = null }) => {
   const { token } = theme.useToken();
 
   // console.log(getTags);
   useEffect(() => {
     setTags(getTags);
   }, [getTags]);
-
-  console.log(tags);
 
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -33,6 +32,7 @@ export const CustomTag = ({ tags, setTags, getTags }) => {
   }, [inputValue]);
 
   const handleClose = (removedTag) => {
+    api.deleteTopicTagApi(topicId, removedTag);
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
   };
@@ -49,6 +49,7 @@ export const CustomTag = ({ tags, setTags, getTags }) => {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       setTags([...tags, inputValue]);
     }
+    api.addTopicTagApi(topicId, inputValue);
     setInputVisible(false);
     setInputValue("");
   };
