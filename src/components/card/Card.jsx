@@ -6,13 +6,17 @@ import { MarkdownRender } from "../completion";
 import { IMAGES } from "../../constants";
 import { reformatDate } from "../../func/func";
 
+import { Tag } from "antd";
+
 export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
+  console.log(tags);
+
   return (
     <StContainer onClick={onClick}>
       {title ? <StTitle>{title}</StTitle> : null}
       {question ? (
         <StDiv>
-          <StQuestion>질문: {question}</StQuestion>
+          <StQuestion>질문: {question?.length > 120 ? question.slice(0, 120) + " ..." : question}</StQuestion>
           <StCreatedAt>{reformatDate(createdAt)}</StCreatedAt>
         </StDiv>
       ) : null}
@@ -23,7 +27,15 @@ export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
         </StAnswer>
       </StContents>
 
-      {tags ? <StTags>{tags}</StTags> : null}
+      {tags ? (
+        <StTags>
+          {tags.map((tag, index) => (
+            <Tag key={index} color="blue">
+              {tag}
+            </Tag>
+          ))}
+        </StTags>
+      ) : null}
     </StContainer>
   );
 };
@@ -94,7 +106,7 @@ const StQuestion = styled.div`
 
   display: flex;
   align-items: center;
-
+  margin-bottom: 10px;
   color: #756966;
 
   /* Inside auto layout */
@@ -139,6 +151,8 @@ const StContents = styled.div`
 
   /* Inside auto layout */
 
+  border-radius: 20px;
+
   flex: none;
   order: 2;
   flex-grow: 0;
@@ -151,7 +165,7 @@ const StTags = styled.div`
 
   height: 22px;
 
-  margin: 10px 10px 0 10px;
+  margin: 20px 10px 0 10px;
 
   flex: none;
   order: 3;
