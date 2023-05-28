@@ -82,8 +82,7 @@ const SignUp = () => {
   return (
     <StContainer>
       <StBox>
-        {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog3} />
+        {IMAGES.logo}
         <StForm>
           <StDiv>
             <Link to={PATH.login}>
@@ -111,14 +110,6 @@ const SignUp = () => {
 
 export default SignUp;
 
-const StImg = styled.img`
-  /* object-fit: cover; */
-  /* border: none; */
-  width: 380px;
-  height: 100px;
-  margin-right: 12px;
-`;
-
 const StContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -140,17 +131,6 @@ const StDiv = styled.div`
   width: 360px;
   border-bottom: 1px solid #d5d5d5;
   padding-bottom: 10px;
-`;
-
-const StTitle = styled.div`
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 64px;
-  line-height: 38px;
-  letter-spacing: 0.005em;
-  color: rgba(0, 0, 0, 0.85);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const StForm = styled.div`

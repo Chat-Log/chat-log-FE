@@ -98,7 +98,6 @@ const Recovery = () => {
           localStorage.setItem("accessToken", "Bearer " + res.data.data.accessToken);
           localStorage.setItem("id", res.data.data.id);
           const resetPwdRes = await api.patchResetPwdApi({ oldPassword: oldPwd, newPassword: newPwd });
-          console.log(resetPwdRes.data.data);
           CustomAlert({ errMsg: "변경된 비밀번호로 로그인 었습니다!" });
           navigate(PATH.home);
         }
@@ -129,7 +128,7 @@ const Recovery = () => {
   return (
     <StContainer>
       <StBox>
-        <StImg src={IMAGES.chatlog3} />
+        {IMAGES.logo}
         <StDiv>
           <Link to={PATH.login}>
             <CustomButton name="로그인" type="link" color="#4ea4f4" />
@@ -161,17 +160,6 @@ const StBox = styled.div`
   gap: 40px;
 `;
 
-const StTitle = styled.div`
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 64px;
-  line-height: 38px;
-  letter-spacing: 0.005em;
-  color: rgba(0, 0, 0, 0.85);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
 const StForm = styled.div`
   width: 360px;
   height: 350px;
@@ -186,13 +174,4 @@ const StDiv = styled.div`
   justify-content: end;
   width: 360px;
   height: 0px;
-  /* border-bottom: 1px solid #d5d5d5; */
-  /* padding-bottom: 10px; */
-`;
-
-const StImg = styled.img`
-  border: none;
-  width: 380px;
-  height: 100px;
-  margin-right: 15px;
 `;

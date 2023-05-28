@@ -46,10 +46,12 @@ export const CustomTag = ({ tags, setTags, getTags, topicId = null }) => {
   };
 
   const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
+    if (inputValue && tags?.indexOf(inputValue) === -1) {
       setTags([...tags, inputValue]);
     }
-    api.addTopicTagApi(topicId, inputValue);
+    if (inputValue !== "") {
+      api.addTopicTagApi(topicId, inputValue);
+    }
     setInputVisible(false);
     setInputValue("");
   };

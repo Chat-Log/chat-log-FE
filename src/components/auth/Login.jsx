@@ -56,8 +56,7 @@ const Login = () => {
   return (
     <StContainer>
       <StBox>
-        {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog3} />
+        {IMAGES.logo}
         <StForm>
           <StDiv>
             <Link to={PATH.help}>
@@ -90,13 +89,6 @@ const StBtnBox = styled.div`
   margin-top: 30px;
 `;
 
-const StImg = styled.img`
-  border: none;
-  width: 380px;
-  height: 100px;
-  margin-right: 12px;
-`;
-
 const StContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -113,25 +105,10 @@ const StBox = styled.div`
   gap: 40px;
 `;
 
-const StTitle = styled.div`
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 64px;
-  line-height: 38px;
-
-  letter-spacing: 0.005em;
-
-  color: rgba(0, 0, 0, 0.85);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
 const StForm = styled.div`
   width: 360px;
-  /* height: 350px; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   gap: 15px;
 `;
 
