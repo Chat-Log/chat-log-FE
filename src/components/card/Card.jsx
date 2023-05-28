@@ -14,7 +14,7 @@ export const Card = ({ title, question, answer, tags, createdAt, onClick }) => {
       {title ? <StTitle>{title}</StTitle> : null}
       {question ? (
         <StDiv>
-          <StQuestion>질문: {question?.length > 120 ? question.slice(0, 120) + " ..." : question}</StQuestion>
+          <StQuestion>질문: {question?.length > 60 ? question.slice(0, 60) + " ..." : question}</StQuestion>
           <StCreatedAt>{reformatDate(createdAt)}</StCreatedAt>
         </StDiv>
       ) : null}
