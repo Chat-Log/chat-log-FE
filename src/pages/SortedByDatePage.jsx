@@ -142,7 +142,7 @@ const SortedByDatePage = () => {
         <StBox>
           <YearSelector>
             <p>
-              {totalCompletionCount} completion in {currentYear}
+              {totalCompletionCount} question in {currentYear}
             </p>
           </YearSelector>
           <StGrass>

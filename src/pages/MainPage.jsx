@@ -81,6 +81,7 @@ const MainPage = () => {
     }
     setQuestion("");
     setCompletion([]);
+    setTid("");
   }, [topicId]);
 
   // api key 관리
@@ -150,7 +151,6 @@ const MainPage = () => {
   const abortFetch = () => {
     if (fetchState) {
       controller?.abort();
-      console.log("중지");
     }
     setFetchState(false);
     setShowStopButton(false);
@@ -178,7 +178,7 @@ const MainPage = () => {
       let newController = new AbortController();
       setController(newController);
 
-      fetch("http://localhost:8080/topics/completion", {
+      fetch("http://localhost:8080/api/topics/completion", {
         signal: newController.signal,
         method: "POST",
         headers: {
@@ -189,7 +189,6 @@ const MainPage = () => {
       })
         .then((response) => {
           if (response.ok && !body.topicId) {
-            console.log("업데이트");
             dispatch(updateTopic({ id: tid, title: question.slice(0, 8) }));
           } else if (response.status === 400) {
             CustomAlert({ errMsg: "API 키를 확안해주세요.", icon: "error" });
@@ -201,8 +200,9 @@ const MainPage = () => {
           let buffer = "";
           reader.read().then(function processText({ done, value }) {
             if (done) {
-              // console.log("Stream ended");
-              setFetchState(true);
+              setShowStopButton(false);
+              console.log("Stream ended");
+
               return;
             }
 
@@ -232,6 +232,7 @@ const MainPage = () => {
             reader.read().then(processText);
           });
           setQuestion("");
+          setFetchState(true);
         })
         .catch((error) => {
           console.error("Stream error:", error);
@@ -241,7 +242,7 @@ const MainPage = () => {
     }
   };
 
-  const tag = useMemo(() => topicData.tags?.map((data, index) => data?.props?.name), [topicData.tags]);
+  const tag = useMemo(() => topicData?.tags?.map((data, index) => data?.props?.name), [topicData?.tags]);
 
   return (
     <>
@@ -257,9 +258,11 @@ const MainPage = () => {
           <CustomSelect options={modelOptions} defaultValue={selectedModel} onChange={changeModelHandler} placement="bottomLeft" />
         </StTitleBox>
 
-        <StTagBox>
-          <CustomTag tags={tags} setTags={setTags} getTags={tag} topicId={topicId} />
-        </StTagBox>
+        {topicId ? (
+          <StTagBox>
+            <CustomTag tags={tags} setTags={setTags} getTags={tag} topicId={topicId ? topicId : tid} />
+          </StTagBox>
+        ) : null}
 
         <StChatBox>
           {showSpinner && (

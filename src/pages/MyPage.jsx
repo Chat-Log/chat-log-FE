@@ -191,7 +191,7 @@ const MyPage = () => {
         <StBox>
           <YearSelector>
             <p>
-              {totalCompletionCount} completion in {currentYear}
+              {totalCompletionCount} question in {currentYear}
             </p>
           </YearSelector>
           <StGrass>
@@ -225,10 +225,10 @@ const StBox = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: 0.3s;
 
-  &:hover {
+  /* &:hover {
     background: rgb(206, 207, 244);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
-  }
+  } */
 
   @media (max-width: 1300px) {
     padding: 15px;
@@ -275,10 +275,10 @@ const StCardBox = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: 0.3s;
 
-  &:hover {
+  /* &:hover {
     background: rgb(206, 207, 244);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
-  }
+  } */
 `;
 
 const DayLabel = styled.div`
