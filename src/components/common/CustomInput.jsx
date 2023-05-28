@@ -1,9 +1,22 @@
 import { Input } from "antd";
 import styled from "styled-components";
 
-export const CustomInput = ({ size, ph, prefix, mb, suffix, width, onChange, type, name, value, disabled }) => (
+export const CustomInput = ({ size, ph, prefix, mb, suffix, width, onChange, type, name, value, disabled, onPressEnter }) => (
   <>
-    <StInput disabled={disabled} value={value} name={name} size={size} placeholder={ph} prefix={prefix} mb={mb} suffix={suffix} width={width} onChange={onChange} type={type} />
+    <StInput
+      onPressEnter={onPressEnter}
+      disabled={disabled}
+      value={value}
+      name={name}
+      size={size}
+      placeholder={ph}
+      prefix={prefix}
+      mb={mb}
+      suffix={suffix}
+      width={width}
+      onChange={onChange}
+      type={type}
+    />
   </>
 );
 
