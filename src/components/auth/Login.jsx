@@ -67,7 +67,7 @@ const Login = () => {
           <StLabel>이메일</StLabel>
           <CustomInput ph="E-mail" prefix={ICON.user} onChange={onChangeHandler} value={email} id="email" />
           <StLabel>비밀번호</StLabel>
-          <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} value={pwd} id="pwd" type="password" />
+          <CustomInput ph="PASSWARD" prefix={ICON.password} onChange={onChangeHandler} onPressEnter={submitHandler} value={pwd} id="pwd" type="password" />
           <StBtnBox>
             <CustomButton type="primary" name="로그인" width="250px" bgc="#8FC6FA" onClick={submitHandler} disabled={disabled} />
             <Link to={PATH.signup}>
