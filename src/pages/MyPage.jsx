@@ -89,13 +89,13 @@ const MyPage = () => {
 
   const getCellColor = (count) => {
     if (count > 14) {
-      return "#196127";
+      return "#0066CC";
     } else if (count > 9) {
-      return "#239a3b";
+      return "#0099FF";
     } else if (count > 4) {
-      return "#7bc96f";
+      return "#33CCFF";
     } else if (count > 0) {
-      return "#c6e48b";
+      return "#9fdcfa";
     } else {
       return "#ebedf0";
     }
@@ -191,7 +191,7 @@ const MyPage = () => {
         <StBox>
           <YearSelector>
             <p>
-              {totalCompletionCount} contributions in {currentYear}
+              {totalCompletionCount} completion in {currentYear}
             </p>
           </YearSelector>
           <StGrass>
