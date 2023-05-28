@@ -102,6 +102,7 @@ const AntdSider = () => {
           style={{
             borderRight: 0,
             width: collapsed ? "80px" : "250px",
+            position: "fixed",
           }}
           items={items}
           onClick={menuClickHandler}
