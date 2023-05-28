@@ -57,7 +57,7 @@ const Login = () => {
     <StContainer>
       <StBox>
         {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog} />
+        <StImg src={IMAGES.chatlog3} />
         <StForm>
           <StDiv>
             <Link to={PATH.help}>
@@ -92,8 +92,9 @@ const StBtnBox = styled.div`
 
 const StImg = styled.img`
   border: none;
-  width: 370px;
-  height: 240px;
+  width: 380px;
+  height: 100px;
+  margin-right: 12px;
 `;
 
 const StContainer = styled.div`
