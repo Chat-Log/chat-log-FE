@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { CustomButton, CustomUser } from "../components/common";
 
-import { PATH } from "../constants";
+import { PATH, IMAGES } from "../constants";
 
 import { Modal, Form, InputNumber, Input, Button, Layout } from "antd";
 import { SearchOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons";
@@ -41,7 +41,8 @@ export const AntdHeader = () => {
     <>
       <StHeader>
         <Link to={PATH.home}>
-          <StTitle>CHAT GPT</StTitle>
+          <StImg src={IMAGES.chatlog2} />
+          {/* <StTitle>CHAT GPT</StTitle> */}
         </Link>
         <StBox>
           <Button type="primary" size="middle" icon={<SettingOutlined />} onClick={showModal} style={{ background: "transparent", boxShadow: "none" }} />
@@ -105,4 +106,11 @@ const StBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 15px;
+`;
+
+const StImg = styled.img`
+  border: none;
+  width: 38px;
+  height: 42px;
+  margin-top: 15px;
 `;

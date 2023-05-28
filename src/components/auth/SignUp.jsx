@@ -83,7 +83,7 @@ const SignUp = () => {
     <StContainer>
       <StBox>
         {/* <StTitle>Chat Log</StTitle> */}
-        <StImg src={IMAGES.chatlog1} />
+        <StImg src={IMAGES.chatlog3} />
         <StForm>
           <StDiv>
             <Link to={PATH.login}>
@@ -116,6 +116,7 @@ const StImg = styled.img`
   /* border: none; */
   width: 380px;
   height: 100px;
+  margin-right: 12px;
 `;
 
 const StContainer = styled.div`

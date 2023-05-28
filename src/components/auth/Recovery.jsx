@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { CustomAlert, CustomButton, CustomTabs, CustomInput } from "../common/index";
 
 import { api } from "../../core/api";
-import { ICON, PATH } from "../../constants";
+import { ICON, PATH, IMAGES } from "../../constants";
 
 const Recovery = () => {
   const navigate = useNavigate();
@@ -128,7 +128,7 @@ const Recovery = () => {
   return (
     <StContainer>
       <StBox>
-        <StTitle>Chat Log</StTitle>
+        <StImg src={IMAGES.chatlog3} />
         <StDiv>
           <Link to={PATH.login}>
             <CustomButton name="로그인" type="link" color="#1890FF" />
@@ -187,4 +187,11 @@ const StDiv = styled.div`
   height: 0px;
   /* border-bottom: 1px solid #d5d5d5; */
   /* padding-bottom: 10px; */
+`;
+
+const StImg = styled.img`
+  border: none;
+  width: 380px;
+  height: 100px;
+  margin-right: 15px;
 `;
