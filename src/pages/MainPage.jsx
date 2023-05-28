@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -247,6 +247,9 @@ const MainPage = () => {
   //     </SpinnerContainer>
   //   );
   // }
+  const tag = useMemo(() => topicData.tags?.map((data, index) => data?.props?.name), [topicData.tags]);
+
+  console.log(tag);
 
   return (
     <>
@@ -263,7 +266,7 @@ const MainPage = () => {
         </StTitleBox>
 
         <StTagBox>
-          <CustomTag tags={tags} setTags={setTags} />
+          <CustomTag tags={tags} setTags={setTags} getTags={tag} />
         </StTagBox>
 
         <StChatBox>

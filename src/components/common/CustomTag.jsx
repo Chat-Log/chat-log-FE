@@ -7,11 +7,12 @@ import { PlusOutlined } from "@ant-design/icons";
 export const CustomTag = ({ tags, setTags, getTags }) => {
   const { token } = theme.useToken();
 
+  // console.log(getTags);
   useEffect(() => {
-    if (getTags?.length > 0) {
-      setTags(getTags);
-    }
-  }, [getTags?.length]);
+    setTags(getTags);
+  }, [getTags]);
+
+  console.log(tags);
 
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
